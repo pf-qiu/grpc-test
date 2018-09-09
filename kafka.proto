@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package KafkaConsumerServer;
+
+message ConsumerJob {
+    string Topic = 1;
+    string Brokers = 2;
+    int32 PartitionID = 3;
+    int64 Offset = 4;
+    int32 BatchInterval = 5;
+    int32 BatchSize = 6;
+    string Destination = 7;
+    string Format = 8;
+}
+
+message JobID {
+    string ID = 1;
+}
+
+message BatchData {
+    repeated bytes Data = 1;
+}
+
+message BatchInfo {
+    int64 LastOffset = 1;
+    bool EOF = 2;
+    int32 ErrorCode = 3;
+    string ErrorMessage = 4;
+}
+
+message Empty {}
+
+service Kafka {
+    rpc AddJob(ConsumerJob) returns(JobID) {}
+    rpc DeleteJob(JobID) returns(Empty) {}
+    rpc ReadBatch(JobID) returns(stream BatchData) {}
+    rpc GetBatchInfo(JobID) returns(BatchInfo) {}
+}
