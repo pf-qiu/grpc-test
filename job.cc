@@ -48,6 +48,11 @@ Job::Job(Job && j) :
 
 Job::~Job()
 {
+	if (topic != nullptr)
+	{
+		rd_kafka_topic_destroy(topic);
+	}
+
 	if (kafka != nullptr)
 	{
 		rd_kafka_destroy(kafka);
