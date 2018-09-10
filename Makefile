@@ -41,7 +41,7 @@ all: system-check consumer-server client
 consumer-server: kafka.pb.o kafka.grpc.pb.o server.o utils.o job.o 
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
-client: kafka.pb.o kafka.grpc.pb.o client.o
+consumer-client: kafka.pb.o kafka.grpc.pb.o client.o
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
@@ -53,7 +53,7 @@ client: kafka.pb.o kafka.grpc.pb.o client.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h consumer-server client
+	rm -f *.o *.pb.cc *.pb.h consumer-server consumer-client
 
 
 # The following is to test your system and ensure a smoother experience.
