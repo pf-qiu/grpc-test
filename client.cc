@@ -22,7 +22,7 @@ const char* brokers;
 const char* topic;
 const int channels = 4;
 const int basePort = 6000;
-size_t messages;
+size_t totalMessages, totalBytes;
 std::unique_ptr<Kafka::Stub> stubs[channels];
 std::mutex m;
 int main(int argc, char **argv)
@@ -84,7 +84,8 @@ int main(int argc, char **argv)
 				}
 			}
 
-			size_t total = 0;
+			size_t messages = 0;
+			size_t bytes = 0;
 			while (true)
 			{
 				{
@@ -96,7 +97,11 @@ int main(int argc, char **argv)
 					{
 						q++;
 						auto &d = data.data();
-						total += d.size();
+						messages += d.size();
+						for (auto it = d.begin(); it != d.end(); it++)
+						{
+							bytes += it->size();
+						}
 					}
 
 					Status s = reader->Finish();
@@ -135,13 +140,15 @@ int main(int argc, char **argv)
 				}
 			}
 			std::lock_guard<std::mutex> l(m);
-			cout << "Partition: " << part << ", query: " << q << ", total: " << total << endl;
-			messages += total;
+			cout << "Partition: " << part << ", query: " << q << ", messages: " << messages << ", bytes: " << bytes << endl;
+			totalMessages += messages;
+			totalBytes += bytes;
 		}, i);
 	}
 	for (auto it = threads.begin(); it != threads.end(); it++)
 		it->join();
 
-	cout << "Total messages: " << messages << endl;
+	cout << "Total messages: " << totalMessages << endl;
+	cout << "Total bytes: " << totalBytes << endl;
 	return 0;
 }
