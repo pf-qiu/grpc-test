@@ -17,16 +17,17 @@ using namespace grpc;
 using std::cout;
 using std::endl;
 
-const char brokers[] = "127.0.0.1:9092";
-const char topic[] = "test";
+const char* brokers;
+const char* topic;
 const int channels = 4;
 const int basePort = 6000;
 std::unique_ptr<Kafka::Stub> stubs[channels];
-std::atomic<size_t> messages = 0;
+std::atomic<size_t> messages;
 int main(int argc, char **argv)
 {
-	if (argc < 2)
-		return 1;
+	if (argc < 3) return 1;
+	brokers = argv[1];
+	topic = argv[2];
 	rd_kafka_t *k = rd_kafka_new(RD_KAFKA_CONSUMER, 0, 0, 0);
 	rd_kafka_brokers_add(k, brokers);
 	rd_kafka_topic_t *t = rd_kafka_topic_new(k, topic, 0);
