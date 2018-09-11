@@ -6,6 +6,7 @@
 
 #include "kafka.grpc.pb.h"
 #include <librdkafka/rdkafka.h>
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <atomic>
@@ -21,8 +22,9 @@ const char* brokers;
 const char* topic;
 const int channels = 4;
 const int basePort = 6000;
+size_t messages;
 std::unique_ptr<Kafka::Stub> stubs[channels];
-std::atomic<size_t> messages;
+std::mutex m;
 int main(int argc, char **argv)
 {
 	if (argc < 3) return 1;
@@ -60,6 +62,7 @@ int main(int argc, char **argv)
 	for (int i = 0; i < count; i++)
 	{
 		threads.emplace_back([](int part) {
+			int q = 0;
 			ConsumerJob job;
 			job.set_brokers(brokers);
 			job.set_topic(topic);
@@ -73,6 +76,7 @@ int main(int argc, char **argv)
 			{
 				ClientContext ctx;
 				Status s = stub->AddJob(&ctx, job, &id);
+				q++;
 				if (!s.ok())
 				{
 					cout << "AddJob failed" << endl;
@@ -87,14 +91,16 @@ int main(int argc, char **argv)
 					BatchData data;
 					ClientContext ctx;
 					auto reader = stub->ReadBatch(&ctx, id);
-
+					q++;
 					while (reader->Read(&data))
 					{
+						q++;
 						auto &d = data.data();
 						total += d.size();
 					}
 
 					Status s = reader->Finish();
+					q++;
 					if (!s.ok())
 					{
 						cout << "ReadBatch failed" << endl;
@@ -106,6 +112,7 @@ int main(int argc, char **argv)
 					BatchInfo info;
 					ClientContext ctx;
 					Status s = stub->GetBatchInfo(&ctx, id, &info);
+					q++;
 					if (!s.ok())
 					{
 						cout << "GetBatchInfo failed" << endl;
@@ -115,11 +122,11 @@ int main(int argc, char **argv)
 						break;
 				}
 			}
-			cout << "Partition " << part << " total " << total << endl;
 
 			{
 				Empty empty;
 				ClientContext ctx;
+				q++;
 				Status s = stub->DeleteJob(&ctx, id, &empty);
 				if (!s.ok())
 				{
@@ -127,6 +134,8 @@ int main(int argc, char **argv)
 					return;
 				}
 			}
+			std::lock_guard<std::mutex> l(m);
+			cout << "Partition: " << part << ", query: " << q << ", total: " << total << endl;
 			messages += total;
 		}, i);
 	}
