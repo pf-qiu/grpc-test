@@ -36,7 +36,7 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check consumer-server client
+all: system-check consumer-server consumer-client
 
 consumer-server: kafka.pb.o kafka.grpc.pb.o server.o utils.o job.o 
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@

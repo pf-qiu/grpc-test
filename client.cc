@@ -15,13 +15,14 @@ using namespace grpc;
 
 const char brokers[] = "127.0.0.1:9092";
 const char topic[] = "test";
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-	if (argc < 2) return 1;
-	rd_kafka_t* k = rd_kafka_new(RD_KAFKA_CONSUMER, 0, 0, 0);
+	if (argc < 2)
+		return 1;
+	rd_kafka_t *k = rd_kafka_new(RD_KAFKA_CONSUMER, 0, 0, 0);
 	rd_kafka_brokers_add(k, brokers);
-	rd_kafka_topic_t* t = rd_kafka_topic_new(k, topic, 0);
-	const struct rd_kafka_metadata* meta;
+	rd_kafka_topic_t *t = rd_kafka_topic_new(k, topic, 0);
+	const struct rd_kafka_metadata *meta;
 	rd_kafka_resp_err_t err = rd_kafka_metadata(k, false, t, &meta, 2000);
 	if (err != RD_KAFKA_RESP_ERR_NO_ERROR)
 	{
@@ -35,7 +36,7 @@ int main(int argc, char** argv)
 	rd_kafka_metadata_destroy(meta);
 	rd_kafka_topic_destroy(t);
 	rd_kafka_destroy(k);
-	
+
 	auto ch = CreateChannel(argv[1], InsecureChannelCredentials());
 	auto stub = Kafka::NewStub(ch);
 
@@ -52,13 +53,16 @@ int main(int argc, char** argv)
 			job.set_offset(0);
 
 			JobID id;
-
-			Status s = stub->AddJob(&ClientContext(), job, &id);
-			if (!s.ok())
 			{
-				printf("AddJob failed\n");
-				return;
+				ClientContext ctx;
+				Status s = stub->AddJob(&ctx, job, &id);
+				if (!s.ok())
+				{
+					printf("AddJob failed\n");
+					return;
+				}
 			}
+
 			size_t total = 0;
 			while (true)
 			{
@@ -69,11 +73,11 @@ int main(int argc, char** argv)
 
 					while (reader->Read(&data))
 					{
-						auto& d = data.data();
+						auto &d = data.data();
 						total += d.size();
 					}
 
-					s = reader->Finish();
+					Status s = reader->Finish();
 					if (!s.ok())
 					{
 						printf("ReadBatch failed\n");
@@ -81,22 +85,30 @@ int main(int argc, char** argv)
 					}
 				}
 
-				BatchInfo info;
-				s = stub->GetBatchInfo(&ClientContext(), id, &info);
-				if (!s.ok())
 				{
-					printf("GetBatchInfo failed\n");
-					return;
+					BatchInfo info;
+					ClientContext ctx;
+					Status s = stub->GetBatchInfo(&ctx, id, &info);
+					if (!s.ok())
+					{
+						printf("GetBatchInfo failed\n");
+						return;
+					}
+					if (info.eof())
+						break;
 				}
-				if (info.eof()) break;
 			}
 			printf("Partition %d total %d\n", i, total);
-			Empty empty;
-			s = stub->DeleteJob(&ClientContext(), id, &empty);
-			if (!s.ok())
+
 			{
-				printf("DeleteJob failed\n");
-				return;
+				Empty empty;
+				ClientContext ctx;
+				Status s = stub->DeleteJob(&ctx, id, &empty);
+				if (!s.ok())
+				{
+					printf("DeleteJob failed\n");
+					return;
+				}
 			}
 		});
 	}
