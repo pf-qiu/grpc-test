@@ -7,9 +7,12 @@
 #include <string>
 #include <chrono>
 
+
 class Job
 {
 public:
+	typedef std::pair<std::string, std::string> KeyValue;
+
 	Job(const KafkaConsumerServer::ConsumerJob* job);
 	Job(Job&& j);
 	~Job();
@@ -23,12 +26,14 @@ public:
 	{
 		return rd_kafka_err2str(rd_kafka_last_error());
 	}
-	const GeneralUtils::Array<std::string>& GetData() const { return data; }
+	const GeneralUtils::Array<KeyValue>& GetData() const { return data; }
 
 	bool eof;
 	int64_t lastOffset;
 	int errorCode;
 	std::string errorMessage;
+
+	
 private:
 	std::string Topic;
 	std::string Brokers;
@@ -44,5 +49,7 @@ private:
 	rd_kafka_message_t** messages;
 
 	std::chrono::system_clock::time_point start, end;
-	GeneralUtils::Array<std::string> data;
+
+	
+	GeneralUtils::Array<KeyValue> data;
 };

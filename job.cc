@@ -132,22 +132,25 @@ bool Job::Poll()
 	for (ssize_t i = 0; i < count; i++)
 	{
 		rd_kafka_message_t* msg = messages[i];
-
 		if (msg->err != 0)
 		{
 			if (msg->err == RD_KAFKA_RESP_ERR__PARTITION_EOF)
 			{
 				eof = true;
 				data.count = i;
-				break;
+				rd_kafka_message_destroy(msg);
+				return true;
 			}
 			errorCode = msg->err;
 			errorMessage = rd_kafka_err2str(msg->err);
+			rd_kafka_message_destroy(msg);
 			return false;
 		}
 		lastOffset = msg->offset;
-		const char* ptr = (const char*)msg->payload;
-		data[i].assign(ptr, ptr + msg->len);
+		const char* key = (const char*)msg->key;
+		data[i].first.assign(key, key + msg->key_len);
+		const char* value = (const char*)msg->payload;
+		data[i].second.assign(value, value + msg->len);
 		rd_kafka_message_destroy(msg);
 	}
 

@@ -20,6 +20,29 @@ using namespace grpc;
 using namespace KafkaConsumerServer;
 using namespace GeneralUtils;
 
+template<typename T>
+void FillMessage(T&, Job::KeyValue&) {}
+
+template<>
+void FillMessage<KeyMessage>(KeyMessage& msg, Job::KeyValue& kv)
+{
+	msg.add_data(std::move(kv.first));
+}
+
+template<>
+void FillMessage<ValueMessage>(ValueMessage& msg, Job::KeyValue& kv)
+{
+	msg.add_data(std::move(kv.second));
+}
+
+template<>
+void FillMessage<KafkaMessage>(KafkaMessage& msg, Job::KeyValue& kv)
+{
+	auto m = msg.add_data();
+	m->set_key(std::move(kv.first));
+	m->set_value(std::move(kv.second));
+}
+
 class ConsumerServer : public Kafka::Service
 {
 public:
@@ -64,47 +87,19 @@ public:
 		locks.erase(l);
 		return Status::OK;
 	}
-	virtual Status ReadBatch(ServerContext* context, const JobID* request, ServerWriter< BatchData>* writer)
+	virtual Status ReadKey(ServerContext* context, const JobID* request, ServerWriter<KeyMessage>* writer)
 	{
-		const string& id = request->id();
-		auto it = jobs.end();
-		auto l = locks.end();
-		{
-			lock_guard<mutex> g(m);
-			it = jobs.find(id);
-			if (it == jobs.end())
-			{
-				m.unlock();
-				return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
-			}
-			/* Acquire per job lock before releasing global lock.
-			 * Ensure only one call and prevent job from being deleted.
-			 */
-			l = locks.find(id);
-			l->second->lock();
-		}
-		unique_lock<mutex> ul(*l->second, std::adopt_lock);
-
-		Job& job = it->second;
-		job.Start();
-		while (!job.Finish())
-		{
-			if (!job.Poll())
-			{
-				return Status(StatusCode::INTERNAL, job.GetLastKafkaError());
-			}
-
-			BatchData batch;
-			auto& data = job.GetData();
-			for (size_t i = 0; i < data.count; i++)
-			{
-				batch.add_data(std::move(data[i]));
-			}
-			writer->Write(batch);
-		}
-
-		return Status::OK;
+		return ReadPart<KeyMessage>(request, writer);
 	}
+	virtual Status ReadValue(ServerContext* context, const JobID* request, ServerWriter<ValueMessage>* writer)
+	{
+		return ReadPart<ValueMessage>(request, writer);
+	}
+	virtual Status ReadMessage(ServerContext* context, const JobID* request, ServerWriter<KafkaMessage>* writer)
+	{
+		return ReadPart<KafkaMessage>(request, writer);
+	}
+
 	virtual Status GetBatchInfo(ServerContext* context, const JobID* request, BatchInfo* response)
 	{
 		const string& id = request->id();
@@ -137,6 +132,51 @@ public:
 		return Status::OK;
 	}
 private:
+	template<typename T>
+	Status ReadPart(const JobID* request, ServerWriter<T>* writer)
+	{
+		const string& id = request->id();
+		auto it = jobs.end();
+		auto l = locks.end();
+		{
+			lock_guard<mutex> g(m);
+			it = jobs.find(id);
+			if (it == jobs.end())
+			{
+				m.unlock();
+				return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
+			}
+			/* Acquire per job lock before releasing global lock.
+			 * Ensure only one call and prevent job from being deleted.
+			 */
+			l = locks.find(id);
+			l->second->lock();
+		}
+		unique_lock<mutex> ul(*l->second, std::adopt_lock);
+
+		Job& job = it->second;
+		job.Start();
+		while (!job.Finish())
+		{
+			if (!job.Poll())
+			{
+				return Status(StatusCode::INTERNAL, job.GetLastKafkaError());
+			}
+
+			auto& data = job.GetData();
+			T msg;
+			for (size_t i = 0; i < data.count; i++)
+			{
+				FillMessage(msg, data[i]);
+			}
+			if (!writer->Write(msg))
+			{
+				break;
+			}
+		}
+
+		return Status::OK;
+	}
 	bool CheckAddJob(const ConsumerJob* request)
 	{
 		if (request->brokers().empty()) return false;

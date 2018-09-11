@@ -28,8 +28,7 @@ namespace GeneralUtils
 		}
 		~Array() { delete[] data; }
 
-		T& operator[](int index) const { return data[index]; }
-		T& operator[](int index) { return data[index]; }
+		T& operator[](size_t index) const { return data[index]; }
 		T* data;
 		size_t count;
 	};

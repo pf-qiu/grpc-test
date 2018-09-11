@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 			ConsumerJob job;
 			job.set_brokers(brokers);
 			job.set_topic(topic);
-			job.set_batchsize(10);
+			job.set_batchsize(1024);
 			job.set_batchinterval(500);
 			job.set_partitionid(part);
 			job.set_offset(0);
@@ -89,19 +89,17 @@ int main(int argc, char **argv)
 			while (true)
 			{
 				{
-					BatchData data;
+					ValueMessage data;
 					ClientContext ctx;
-					auto reader = stub->ReadBatch(&ctx, id);
+					auto reader = stub->ReadValue(&ctx, id);
 					q++;
 					while (reader->Read(&data))
 					{
 						q++;
 						auto &d = data.data();
-						messages += d.size();
+						messages+= d.size();
 						for (auto it = d.begin(); it != d.end(); it++)
-						{
 							bytes += it->size();
-						}
 					}
 
 					Status s = reader->Finish();
