@@ -19,6 +19,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
+namespace protobuf_kafka_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_kafka_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_KeyValueData;
+}  // namespace protobuf_kafka_2eproto
 namespace KafkaConsumerServer {
 class ConsumerJobDefaultTypeInternal {
  public:
@@ -30,11 +33,26 @@ class JobIDDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<JobID>
       _instance;
 } _JobID_default_instance_;
-class BatchDataDefaultTypeInternal {
+class KeyMessageDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<BatchData>
+  ::google::protobuf::internal::ExplicitlyConstructed<KeyMessage>
       _instance;
-} _BatchData_default_instance_;
+} _KeyMessage_default_instance_;
+class ValueMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ValueMessage>
+      _instance;
+} _ValueMessage_default_instance_;
+class KeyValueDataDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<KeyValueData>
+      _instance;
+} _KeyValueData_default_instance_;
+class KafkaMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<KafkaMessage>
+      _instance;
+} _KafkaMessage_default_instance_;
 class BatchInfoDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<BatchInfo>
@@ -75,19 +93,62 @@ static void InitDefaultsJobID() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_JobID =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsJobID}, {}};
 
-static void InitDefaultsBatchData() {
+static void InitDefaultsKeyMessage() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::KafkaConsumerServer::_BatchData_default_instance_;
-    new (ptr) ::KafkaConsumerServer::BatchData();
+    void* ptr = &::KafkaConsumerServer::_KeyMessage_default_instance_;
+    new (ptr) ::KafkaConsumerServer::KeyMessage();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::KafkaConsumerServer::BatchData::InitAsDefaultInstance();
+  ::KafkaConsumerServer::KeyMessage::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_BatchData =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBatchData}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_KeyMessage =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsKeyMessage}, {}};
+
+static void InitDefaultsValueMessage() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::KafkaConsumerServer::_ValueMessage_default_instance_;
+    new (ptr) ::KafkaConsumerServer::ValueMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::KafkaConsumerServer::ValueMessage::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_ValueMessage =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsValueMessage}, {}};
+
+static void InitDefaultsKeyValueData() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::KafkaConsumerServer::_KeyValueData_default_instance_;
+    new (ptr) ::KafkaConsumerServer::KeyValueData();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::KafkaConsumerServer::KeyValueData::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_KeyValueData =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsKeyValueData}, {}};
+
+static void InitDefaultsKafkaMessage() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::KafkaConsumerServer::_KafkaMessage_default_instance_;
+    new (ptr) ::KafkaConsumerServer::KafkaMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::KafkaConsumerServer::KafkaMessage::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_KafkaMessage =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsKafkaMessage}, {
+      &protobuf_kafka_2eproto::scc_info_KeyValueData.base,}};
 
 static void InitDefaultsBatchInfo() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -120,12 +181,15 @@ static void InitDefaultsEmpty() {
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_ConsumerJob.base);
   ::google::protobuf::internal::InitSCC(&scc_info_JobID.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_BatchData.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_KeyMessage.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ValueMessage.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_KeyValueData.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_KafkaMessage.base);
   ::google::protobuf::internal::InitSCC(&scc_info_BatchInfo.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Empty.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[5];
+::google::protobuf::Metadata file_level_metadata[8];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -148,11 +212,30 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::JobID, id_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::BatchData, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KeyMessage, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::BatchData, data_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KeyMessage, data_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ValueMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ValueMessage, data_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KeyValueData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KeyValueData, key_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KeyValueData, value_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KafkaMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::KafkaMessage, data_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::BatchInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -171,15 +254,21 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::KafkaConsumerServer::ConsumerJob)},
   { 13, -1, sizeof(::KafkaConsumerServer::JobID)},
-  { 19, -1, sizeof(::KafkaConsumerServer::BatchData)},
-  { 25, -1, sizeof(::KafkaConsumerServer::BatchInfo)},
-  { 34, -1, sizeof(::KafkaConsumerServer::Empty)},
+  { 19, -1, sizeof(::KafkaConsumerServer::KeyMessage)},
+  { 25, -1, sizeof(::KafkaConsumerServer::ValueMessage)},
+  { 31, -1, sizeof(::KafkaConsumerServer::KeyValueData)},
+  { 38, -1, sizeof(::KafkaConsumerServer::KafkaMessage)},
+  { 44, -1, sizeof(::KafkaConsumerServer::BatchInfo)},
+  { 53, -1, sizeof(::KafkaConsumerServer::Empty)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_ConsumerJob_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_JobID_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_BatchData_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_KeyMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_ValueMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_KeyValueData_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_KafkaMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_BatchInfo_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::KafkaConsumerServer::_Empty_default_instance_),
 };
@@ -199,7 +288,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 8);
 }
 
 void AddDescriptorsImpl() {
@@ -210,21 +299,29 @@ void AddDescriptorsImpl() {
       "(\t\022\023\n\013PartitionID\030\003 \001(\005\022\016\n\006Offset\030\004 \001(\003\022"
       "\025\n\rBatchInterval\030\005 \001(\005\022\021\n\tBatchSize\030\006 \001("
       "\005\022\023\n\013Destination\030\007 \001(\t\022\016\n\006Format\030\010 \001(\t\"\023"
-      "\n\005JobID\022\n\n\002ID\030\001 \001(\t\"\031\n\tBatchData\022\014\n\004Data"
-      "\030\001 \003(\014\"U\n\tBatchInfo\022\022\n\nLastOffset\030\001 \001(\003\022"
-      "\013\n\003EOF\030\002 \001(\010\022\021\n\tErrorCode\030\003 \001(\005\022\024\n\014Error"
-      "Message\030\004 \001(\t\"\007\n\005Empty2\263\002\n\005Kafka\022H\n\006AddJ"
-      "ob\022 .KafkaConsumerServer.ConsumerJob\032\032.K"
-      "afkaConsumerServer.JobID\"\000\022E\n\tDeleteJob\022"
-      "\032.KafkaConsumerServer.JobID\032\032.KafkaConsu"
-      "merServer.Empty\"\000\022K\n\tReadBatch\022\032.KafkaCo"
-      "nsumerServer.JobID\032\036.KafkaConsumerServer"
-      ".BatchData\"\0000\001\022L\n\014GetBatchInfo\022\032.KafkaCo"
-      "nsumerServer.JobID\032\036.KafkaConsumerServer"
-      ".BatchInfo\"\000b\006proto3"
+      "\n\005JobID\022\n\n\002ID\030\001 \001(\t\"\032\n\nKeyMessage\022\014\n\004Dat"
+      "a\030\001 \003(\014\"\034\n\014ValueMessage\022\014\n\004Data\030\001 \003(\014\"*\n"
+      "\014KeyValueData\022\013\n\003Key\030\001 \001(\014\022\r\n\005Value\030\002 \001("
+      "\014\"\?\n\014KafkaMessage\022/\n\004Data\030\001 \003(\0132!.KafkaC"
+      "onsumerServer.KeyValueData\"U\n\tBatchInfo\022"
+      "\022\n\nLastOffset\030\001 \001(\003\022\013\n\003EOF\030\002 \001(\010\022\021\n\tErro"
+      "rCode\030\003 \001(\005\022\024\n\014ErrorMessage\030\004 \001(\t\"\007\n\005Emp"
+      "ty2\324\003\n\005Kafka\022H\n\006AddJob\022 .KafkaConsumerSe"
+      "rver.ConsumerJob\032\032.KafkaConsumerServer.J"
+      "obID\"\000\022E\n\tDeleteJob\022\032.KafkaConsumerServe"
+      "r.JobID\032\032.KafkaConsumerServer.Empty\"\000\022J\n"
+      "\007ReadKey\022\032.KafkaConsumerServer.JobID\032\037.K"
+      "afkaConsumerServer.KeyMessage\"\0000\001\022N\n\tRea"
+      "dValue\022\032.KafkaConsumerServer.JobID\032!.Kaf"
+      "kaConsumerServer.ValueMessage\"\0000\001\022P\n\013Rea"
+      "dMessage\022\032.KafkaConsumerServer.JobID\032!.K"
+      "afkaConsumerServer.KafkaMessage\"\0000\001\022L\n\014G"
+      "etBatchInfo\022\032.KafkaConsumerServer.JobID\032"
+      "\036.KafkaConsumerServer.BatchInfo\"\000b\006proto"
+      "3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 660);
+      descriptor, 961);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "kafka.proto", &protobuf_RegisterTypes);
 }
@@ -1055,54 +1152,54 @@ void JobID::InternalSwap(JobID* other) {
 
 // ===================================================================
 
-void BatchData::InitAsDefaultInstance() {
+void KeyMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BatchData::kDataFieldNumber;
+const int KeyMessage::kDataFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-BatchData::BatchData()
+KeyMessage::KeyMessage()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_kafka_2eproto::scc_info_BatchData.base);
+      &protobuf_kafka_2eproto::scc_info_KeyMessage.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(constructor:KafkaConsumerServer.KeyMessage)
 }
-BatchData::BatchData(const BatchData& from)
+KeyMessage::KeyMessage(const KeyMessage& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       data_(from.data_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.KeyMessage)
 }
 
-void BatchData::SharedCtor() {
+void KeyMessage::SharedCtor() {
 }
 
-BatchData::~BatchData() {
-  // @@protoc_insertion_point(destructor:KafkaConsumerServer.BatchData)
+KeyMessage::~KeyMessage() {
+  // @@protoc_insertion_point(destructor:KafkaConsumerServer.KeyMessage)
   SharedDtor();
 }
 
-void BatchData::SharedDtor() {
+void KeyMessage::SharedDtor() {
 }
 
-void BatchData::SetCachedSize(int size) const {
+void KeyMessage::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* BatchData::descriptor() {
+const ::google::protobuf::Descriptor* KeyMessage::descriptor() {
   ::protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const BatchData& BatchData::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_kafka_2eproto::scc_info_BatchData.base);
+const KeyMessage& KeyMessage::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_kafka_2eproto::scc_info_KeyMessage.base);
   return *internal_default_instance();
 }
 
 
-void BatchData::Clear() {
-// @@protoc_insertion_point(message_clear_start:KafkaConsumerServer.BatchData)
+void KeyMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:KafkaConsumerServer.KeyMessage)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1111,11 +1208,11 @@ void BatchData::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool BatchData::MergePartialFromCodedStream(
+bool KeyMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(parse_start:KafkaConsumerServer.KeyMessage)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -1145,17 +1242,17 @@ bool BatchData::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(parse_success:KafkaConsumerServer.KeyMessage)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(parse_failure:KafkaConsumerServer.KeyMessage)
   return false;
 #undef DO_
 }
 
-void BatchData::SerializeWithCachedSizes(
+void KeyMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(serialize_start:KafkaConsumerServer.KeyMessage)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1169,13 +1266,13 @@ void BatchData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(serialize_end:KafkaConsumerServer.KeyMessage)
 }
 
-::google::protobuf::uint8* BatchData::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* KeyMessage::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(serialize_to_array_start:KafkaConsumerServer.KeyMessage)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1189,12 +1286,12 @@ void BatchData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(serialize_to_array_end:KafkaConsumerServer.KeyMessage)
   return target;
 }
 
-size_t BatchData::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:KafkaConsumerServer.BatchData)
+size_t KeyMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:KafkaConsumerServer.KeyMessage)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1215,23 +1312,23 @@ size_t BatchData::ByteSizeLong() const {
   return total_size;
 }
 
-void BatchData::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:KafkaConsumerServer.BatchData)
+void KeyMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:KafkaConsumerServer.KeyMessage)
   GOOGLE_DCHECK_NE(&from, this);
-  const BatchData* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BatchData>(
+  const KeyMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const KeyMessage>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:KafkaConsumerServer.KeyMessage)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:KafkaConsumerServer.KeyMessage)
     MergeFrom(*source);
   }
 }
 
-void BatchData::MergeFrom(const BatchData& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:KafkaConsumerServer.BatchData)
+void KeyMessage::MergeFrom(const KeyMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:KafkaConsumerServer.KeyMessage)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1240,35 +1337,761 @@ void BatchData::MergeFrom(const BatchData& from) {
   data_.MergeFrom(from.data_);
 }
 
-void BatchData::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:KafkaConsumerServer.BatchData)
+void KeyMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:KafkaConsumerServer.KeyMessage)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void BatchData::CopyFrom(const BatchData& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:KafkaConsumerServer.BatchData)
+void KeyMessage::CopyFrom(const KeyMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:KafkaConsumerServer.KeyMessage)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool BatchData::IsInitialized() const {
+bool KeyMessage::IsInitialized() const {
   return true;
 }
 
-void BatchData::Swap(BatchData* other) {
+void KeyMessage::Swap(KeyMessage* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void BatchData::InternalSwap(BatchData* other) {
+void KeyMessage::InternalSwap(KeyMessage* other) {
   using std::swap;
   data_.InternalSwap(CastToBase(&other->data_));
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata BatchData::GetMetadata() const {
+::google::protobuf::Metadata KeyMessage::GetMetadata() const {
+  protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void ValueMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ValueMessage::kDataFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ValueMessage::ValueMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_kafka_2eproto::scc_info_ValueMessage.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:KafkaConsumerServer.ValueMessage)
+}
+ValueMessage::ValueMessage(const ValueMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      data_(from.data_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.ValueMessage)
+}
+
+void ValueMessage::SharedCtor() {
+}
+
+ValueMessage::~ValueMessage() {
+  // @@protoc_insertion_point(destructor:KafkaConsumerServer.ValueMessage)
+  SharedDtor();
+}
+
+void ValueMessage::SharedDtor() {
+}
+
+void ValueMessage::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* ValueMessage::descriptor() {
+  ::protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const ValueMessage& ValueMessage::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_kafka_2eproto::scc_info_ValueMessage.base);
+  return *internal_default_instance();
+}
+
+
+void ValueMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:KafkaConsumerServer.ValueMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  data_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool ValueMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:KafkaConsumerServer.ValueMessage)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated bytes Data = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->add_data()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:KafkaConsumerServer.ValueMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:KafkaConsumerServer.ValueMessage)
+  return false;
+#undef DO_
+}
+
+void ValueMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:KafkaConsumerServer.ValueMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated bytes Data = 1;
+  for (int i = 0, n = this->data_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      1, this->data(i), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:KafkaConsumerServer.ValueMessage)
+}
+
+::google::protobuf::uint8* ValueMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:KafkaConsumerServer.ValueMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated bytes Data = 1;
+  for (int i = 0, n = this->data_size(); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteBytesToArray(1, this->data(i), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:KafkaConsumerServer.ValueMessage)
+  return target;
+}
+
+size_t ValueMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:KafkaConsumerServer.ValueMessage)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // repeated bytes Data = 1;
+  total_size += 1 *
+      ::google::protobuf::internal::FromIntSize(this->data_size());
+  for (int i = 0, n = this->data_size(); i < n; i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::BytesSize(
+      this->data(i));
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ValueMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:KafkaConsumerServer.ValueMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ValueMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ValueMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:KafkaConsumerServer.ValueMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:KafkaConsumerServer.ValueMessage)
+    MergeFrom(*source);
+  }
+}
+
+void ValueMessage::MergeFrom(const ValueMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:KafkaConsumerServer.ValueMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  data_.MergeFrom(from.data_);
+}
+
+void ValueMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:KafkaConsumerServer.ValueMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ValueMessage::CopyFrom(const ValueMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:KafkaConsumerServer.ValueMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ValueMessage::IsInitialized() const {
+  return true;
+}
+
+void ValueMessage::Swap(ValueMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ValueMessage::InternalSwap(ValueMessage* other) {
+  using std::swap;
+  data_.InternalSwap(CastToBase(&other->data_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata ValueMessage::GetMetadata() const {
+  protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void KeyValueData::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int KeyValueData::kKeyFieldNumber;
+const int KeyValueData::kValueFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+KeyValueData::KeyValueData()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_kafka_2eproto::scc_info_KeyValueData.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:KafkaConsumerServer.KeyValueData)
+}
+KeyValueData::KeyValueData(const KeyValueData& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  key_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.key().size() > 0) {
+    key_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.key_);
+  }
+  value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.value().size() > 0) {
+    value_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_);
+  }
+  // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.KeyValueData)
+}
+
+void KeyValueData::SharedCtor() {
+  key_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+KeyValueData::~KeyValueData() {
+  // @@protoc_insertion_point(destructor:KafkaConsumerServer.KeyValueData)
+  SharedDtor();
+}
+
+void KeyValueData::SharedDtor() {
+  key_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void KeyValueData::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* KeyValueData::descriptor() {
+  ::protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const KeyValueData& KeyValueData::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_kafka_2eproto::scc_info_KeyValueData.base);
+  return *internal_default_instance();
+}
+
+
+void KeyValueData::Clear() {
+// @@protoc_insertion_point(message_clear_start:KafkaConsumerServer.KeyValueData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool KeyValueData::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:KafkaConsumerServer.KeyValueData)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // bytes Key = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_key()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bytes Value = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_value()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:KafkaConsumerServer.KeyValueData)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:KafkaConsumerServer.KeyValueData)
+  return false;
+#undef DO_
+}
+
+void KeyValueData::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:KafkaConsumerServer.KeyValueData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes Key = 1;
+  if (this->key().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      1, this->key(), output);
+  }
+
+  // bytes Value = 2;
+  if (this->value().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      2, this->value(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:KafkaConsumerServer.KeyValueData)
+}
+
+::google::protobuf::uint8* KeyValueData::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:KafkaConsumerServer.KeyValueData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes Key = 1;
+  if (this->key().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        1, this->key(), target);
+  }
+
+  // bytes Value = 2;
+  if (this->value().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        2, this->value(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:KafkaConsumerServer.KeyValueData)
+  return target;
+}
+
+size_t KeyValueData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:KafkaConsumerServer.KeyValueData)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // bytes Key = 1;
+  if (this->key().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->key());
+  }
+
+  // bytes Value = 2;
+  if (this->value().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->value());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void KeyValueData::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:KafkaConsumerServer.KeyValueData)
+  GOOGLE_DCHECK_NE(&from, this);
+  const KeyValueData* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const KeyValueData>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:KafkaConsumerServer.KeyValueData)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:KafkaConsumerServer.KeyValueData)
+    MergeFrom(*source);
+  }
+}
+
+void KeyValueData::MergeFrom(const KeyValueData& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:KafkaConsumerServer.KeyValueData)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.key().size() > 0) {
+
+    key_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.key_);
+  }
+  if (from.value().size() > 0) {
+
+    value_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_);
+  }
+}
+
+void KeyValueData::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:KafkaConsumerServer.KeyValueData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void KeyValueData::CopyFrom(const KeyValueData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:KafkaConsumerServer.KeyValueData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool KeyValueData::IsInitialized() const {
+  return true;
+}
+
+void KeyValueData::Swap(KeyValueData* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void KeyValueData::InternalSwap(KeyValueData* other) {
+  using std::swap;
+  key_.Swap(&other->key_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  value_.Swap(&other->value_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata KeyValueData::GetMetadata() const {
+  protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void KafkaMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int KafkaMessage::kDataFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+KafkaMessage::KafkaMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_kafka_2eproto::scc_info_KafkaMessage.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:KafkaConsumerServer.KafkaMessage)
+}
+KafkaMessage::KafkaMessage(const KafkaMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      data_(from.data_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.KafkaMessage)
+}
+
+void KafkaMessage::SharedCtor() {
+}
+
+KafkaMessage::~KafkaMessage() {
+  // @@protoc_insertion_point(destructor:KafkaConsumerServer.KafkaMessage)
+  SharedDtor();
+}
+
+void KafkaMessage::SharedDtor() {
+}
+
+void KafkaMessage::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* KafkaMessage::descriptor() {
+  ::protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const KafkaMessage& KafkaMessage::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_kafka_2eproto::scc_info_KafkaMessage.base);
+  return *internal_default_instance();
+}
+
+
+void KafkaMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:KafkaConsumerServer.KafkaMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  data_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool KafkaMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:KafkaConsumerServer.KafkaMessage)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .KafkaConsumerServer.KeyValueData Data = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_data()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:KafkaConsumerServer.KafkaMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:KafkaConsumerServer.KafkaMessage)
+  return false;
+#undef DO_
+}
+
+void KafkaMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:KafkaConsumerServer.KafkaMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .KafkaConsumerServer.KeyValueData Data = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->data_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1,
+      this->data(static_cast<int>(i)),
+      output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:KafkaConsumerServer.KafkaMessage)
+}
+
+::google::protobuf::uint8* KafkaMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:KafkaConsumerServer.KafkaMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .KafkaConsumerServer.KeyValueData Data = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->data_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        1, this->data(static_cast<int>(i)), deterministic, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:KafkaConsumerServer.KafkaMessage)
+  return target;
+}
+
+size_t KafkaMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:KafkaConsumerServer.KafkaMessage)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // repeated .KafkaConsumerServer.KeyValueData Data = 1;
+  {
+    unsigned int count = static_cast<unsigned int>(this->data_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->data(static_cast<int>(i)));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void KafkaMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:KafkaConsumerServer.KafkaMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const KafkaMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const KafkaMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:KafkaConsumerServer.KafkaMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:KafkaConsumerServer.KafkaMessage)
+    MergeFrom(*source);
+  }
+}
+
+void KafkaMessage::MergeFrom(const KafkaMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:KafkaConsumerServer.KafkaMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  data_.MergeFrom(from.data_);
+}
+
+void KafkaMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:KafkaConsumerServer.KafkaMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void KafkaMessage::CopyFrom(const KafkaMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:KafkaConsumerServer.KafkaMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool KafkaMessage::IsInitialized() const {
+  return true;
+}
+
+void KafkaMessage::Swap(KafkaMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void KafkaMessage::InternalSwap(KafkaMessage* other) {
+  using std::swap;
+  CastToBase(&data_)->InternalSwap(CastToBase(&other->data_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata KafkaMessage::GetMetadata() const {
   protobuf_kafka_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_kafka_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -1820,8 +2643,17 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::ConsumerJob
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::JobID* Arena::CreateMaybeMessage< ::KafkaConsumerServer::JobID >(Arena* arena) {
   return Arena::CreateInternal< ::KafkaConsumerServer::JobID >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::BatchData* Arena::CreateMaybeMessage< ::KafkaConsumerServer::BatchData >(Arena* arena) {
-  return Arena::CreateInternal< ::KafkaConsumerServer::BatchData >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::KeyMessage* Arena::CreateMaybeMessage< ::KafkaConsumerServer::KeyMessage >(Arena* arena) {
+  return Arena::CreateInternal< ::KafkaConsumerServer::KeyMessage >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::ValueMessage* Arena::CreateMaybeMessage< ::KafkaConsumerServer::ValueMessage >(Arena* arena) {
+  return Arena::CreateInternal< ::KafkaConsumerServer::ValueMessage >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::KeyValueData* Arena::CreateMaybeMessage< ::KafkaConsumerServer::KeyValueData >(Arena* arena) {
+  return Arena::CreateInternal< ::KafkaConsumerServer::KeyValueData >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::KafkaMessage* Arena::CreateMaybeMessage< ::KafkaConsumerServer::KafkaMessage >(Arena* arena) {
+  return Arena::CreateInternal< ::KafkaConsumerServer::KafkaMessage >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::KafkaConsumerServer::BatchInfo* Arena::CreateMaybeMessage< ::KafkaConsumerServer::BatchInfo >(Arena* arena) {
   return Arena::CreateInternal< ::KafkaConsumerServer::BatchInfo >(arena);

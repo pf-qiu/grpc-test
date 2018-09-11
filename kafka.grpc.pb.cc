@@ -18,7 +18,9 @@ namespace KafkaConsumerServer {
 static const char* Kafka_method_names[] = {
   "/KafkaConsumerServer.Kafka/AddJob",
   "/KafkaConsumerServer.Kafka/DeleteJob",
-  "/KafkaConsumerServer.Kafka/ReadBatch",
+  "/KafkaConsumerServer.Kafka/ReadKey",
+  "/KafkaConsumerServer.Kafka/ReadValue",
+  "/KafkaConsumerServer.Kafka/ReadMessage",
   "/KafkaConsumerServer.Kafka/GetBatchInfo",
 };
 
@@ -31,8 +33,10 @@ std::unique_ptr< Kafka::Stub> Kafka::NewStub(const std::shared_ptr< ::grpc::Chan
 Kafka::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_AddJob_(Kafka_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_DeleteJob_(Kafka_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadBatch_(Kafka_method_names[2], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
-  , rpcmethod_GetBatchInfo_(Kafka_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadKey_(Kafka_method_names[2], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_ReadValue_(Kafka_method_names[3], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_ReadMessage_(Kafka_method_names[4], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_GetBatchInfo_(Kafka_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Kafka::Stub::AddJob(::grpc::ClientContext* context, const ::KafkaConsumerServer::ConsumerJob& request, ::KafkaConsumerServer::JobID* response) {
@@ -59,16 +63,40 @@ Kafka::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::KafkaConsumerServer::Empty>::Create(channel_.get(), cq, rpcmethod_DeleteJob_, context, request, false);
 }
 
-::grpc::ClientReader< ::KafkaConsumerServer::BatchData>* Kafka::Stub::ReadBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
-  return ::grpc::internal::ClientReaderFactory< ::KafkaConsumerServer::BatchData>::Create(channel_.get(), rpcmethod_ReadBatch_, context, request);
+::grpc::ClientReader< ::KafkaConsumerServer::KeyMessage>* Kafka::Stub::ReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
+  return ::grpc::internal::ClientReaderFactory< ::KafkaConsumerServer::KeyMessage>::Create(channel_.get(), rpcmethod_ReadKey_, context, request);
 }
 
-::grpc::ClientAsyncReader< ::KafkaConsumerServer::BatchData>* Kafka::Stub::AsyncReadBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::BatchData>::Create(channel_.get(), cq, rpcmethod_ReadBatch_, context, request, true, tag);
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::KeyMessage>* Kafka::Stub::AsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::KeyMessage>::Create(channel_.get(), cq, rpcmethod_ReadKey_, context, request, true, tag);
 }
 
-::grpc::ClientAsyncReader< ::KafkaConsumerServer::BatchData>* Kafka::Stub::PrepareAsyncReadBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::BatchData>::Create(channel_.get(), cq, rpcmethod_ReadBatch_, context, request, false, nullptr);
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::KeyMessage>* Kafka::Stub::PrepareAsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::KeyMessage>::Create(channel_.get(), cq, rpcmethod_ReadKey_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::KafkaConsumerServer::ValueMessage>* Kafka::Stub::ReadValueRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
+  return ::grpc::internal::ClientReaderFactory< ::KafkaConsumerServer::ValueMessage>::Create(channel_.get(), rpcmethod_ReadValue_, context, request);
+}
+
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::ValueMessage>* Kafka::Stub::AsyncReadValueRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::ValueMessage>::Create(channel_.get(), cq, rpcmethod_ReadValue_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::ValueMessage>* Kafka::Stub::PrepareAsyncReadValueRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::ValueMessage>::Create(channel_.get(), cq, rpcmethod_ReadValue_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::KafkaConsumerServer::KafkaMessage>* Kafka::Stub::ReadMessageRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
+  return ::grpc::internal::ClientReaderFactory< ::KafkaConsumerServer::KafkaMessage>::Create(channel_.get(), rpcmethod_ReadMessage_, context, request);
+}
+
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::KafkaMessage>* Kafka::Stub::AsyncReadMessageRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::KafkaMessage>::Create(channel_.get(), cq, rpcmethod_ReadMessage_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::KafkaConsumerServer::KafkaMessage>* Kafka::Stub::PrepareAsyncReadMessageRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::KafkaConsumerServer::KafkaMessage>::Create(channel_.get(), cq, rpcmethod_ReadMessage_, context, request, false, nullptr);
 }
 
 ::grpc::Status Kafka::Stub::GetBatchInfo(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::KafkaConsumerServer::BatchInfo* response) {
@@ -97,10 +125,20 @@ Kafka::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Kafka_method_names[2],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
-      new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::BatchData>(
-          std::mem_fn(&Kafka::Service::ReadBatch), this)));
+      new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KeyMessage>(
+          std::mem_fn(&Kafka::Service::ReadKey), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Kafka_method_names[3],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::ValueMessage>(
+          std::mem_fn(&Kafka::Service::ReadValue), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Kafka_method_names[4],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KafkaMessage>(
+          std::mem_fn(&Kafka::Service::ReadMessage), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Kafka_method_names[5],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::BatchInfo>(
           std::mem_fn(&Kafka::Service::GetBatchInfo), this)));
@@ -123,7 +161,21 @@ Kafka::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status Kafka::Service::ReadBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::BatchData>* writer) {
+::grpc::Status Kafka::Service::ReadKey(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::KeyMessage>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Kafka::Service::ReadValue(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::ValueMessage>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Kafka::Service::ReadMessage(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::KafkaMessage>* writer) {
   (void) context;
   (void) request;
   (void) writer;

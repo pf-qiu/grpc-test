@@ -17,8 +17,22 @@ message JobID {
     string ID = 1;
 }
 
-message BatchData {
+message KeyMessage {
     repeated bytes Data = 1;
+}
+
+message ValueMessage {
+    repeated bytes Data = 1;
+}
+
+
+message KeyValueData {
+    bytes Key = 1;
+    bytes Value = 2;
+}
+
+message KafkaMessage {
+    repeated KeyValueData Data = 1;
 }
 
 message BatchInfo {
@@ -33,6 +47,8 @@ message Empty {}
 service Kafka {
     rpc AddJob(ConsumerJob) returns(JobID) {}
     rpc DeleteJob(JobID) returns(Empty) {}
-    rpc ReadBatch(JobID) returns(stream BatchData) {}
+    rpc ReadKey(JobID) returns(stream KeyMessage) {}
+    rpc ReadValue(JobID) returns(stream ValueMessage) {}
+    rpc ReadMessage(JobID) returns(stream KafkaMessage) {}
     rpc GetBatchInfo(JobID) returns(BatchInfo) {}
 }

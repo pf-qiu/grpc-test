@@ -38,7 +38,7 @@ namespace protobuf_kafka_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[5];
+  static const ::google::protobuf::internal::ParseTable schema[8];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -46,9 +46,6 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_kafka_2eproto
 namespace KafkaConsumerServer {
-class BatchData;
-class BatchDataDefaultTypeInternal;
-extern BatchDataDefaultTypeInternal _BatchData_default_instance_;
 class BatchInfo;
 class BatchInfoDefaultTypeInternal;
 extern BatchInfoDefaultTypeInternal _BatchInfo_default_instance_;
@@ -61,14 +58,29 @@ extern EmptyDefaultTypeInternal _Empty_default_instance_;
 class JobID;
 class JobIDDefaultTypeInternal;
 extern JobIDDefaultTypeInternal _JobID_default_instance_;
+class KafkaMessage;
+class KafkaMessageDefaultTypeInternal;
+extern KafkaMessageDefaultTypeInternal _KafkaMessage_default_instance_;
+class KeyMessage;
+class KeyMessageDefaultTypeInternal;
+extern KeyMessageDefaultTypeInternal _KeyMessage_default_instance_;
+class KeyValueData;
+class KeyValueDataDefaultTypeInternal;
+extern KeyValueDataDefaultTypeInternal _KeyValueData_default_instance_;
+class ValueMessage;
+class ValueMessageDefaultTypeInternal;
+extern ValueMessageDefaultTypeInternal _ValueMessage_default_instance_;
 }  // namespace KafkaConsumerServer
 namespace google {
 namespace protobuf {
-template<> ::KafkaConsumerServer::BatchData* Arena::CreateMaybeMessage<::KafkaConsumerServer::BatchData>(Arena*);
 template<> ::KafkaConsumerServer::BatchInfo* Arena::CreateMaybeMessage<::KafkaConsumerServer::BatchInfo>(Arena*);
 template<> ::KafkaConsumerServer::ConsumerJob* Arena::CreateMaybeMessage<::KafkaConsumerServer::ConsumerJob>(Arena*);
 template<> ::KafkaConsumerServer::Empty* Arena::CreateMaybeMessage<::KafkaConsumerServer::Empty>(Arena*);
 template<> ::KafkaConsumerServer::JobID* Arena::CreateMaybeMessage<::KafkaConsumerServer::JobID>(Arena*);
+template<> ::KafkaConsumerServer::KafkaMessage* Arena::CreateMaybeMessage<::KafkaConsumerServer::KafkaMessage>(Arena*);
+template<> ::KafkaConsumerServer::KeyMessage* Arena::CreateMaybeMessage<::KafkaConsumerServer::KeyMessage>(Arena*);
+template<> ::KafkaConsumerServer::KeyValueData* Arena::CreateMaybeMessage<::KafkaConsumerServer::KeyValueData>(Arena*);
+template<> ::KafkaConsumerServer::ValueMessage* Arena::CreateMaybeMessage<::KafkaConsumerServer::ValueMessage>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace KafkaConsumerServer {
@@ -370,24 +382,24 @@ class JobID : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class BatchData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:KafkaConsumerServer.BatchData) */ {
+class KeyMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:KafkaConsumerServer.KeyMessage) */ {
  public:
-  BatchData();
-  virtual ~BatchData();
+  KeyMessage();
+  virtual ~KeyMessage();
 
-  BatchData(const BatchData& from);
+  KeyMessage(const KeyMessage& from);
 
-  inline BatchData& operator=(const BatchData& from) {
+  inline KeyMessage& operator=(const KeyMessage& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  BatchData(BatchData&& from) noexcept
-    : BatchData() {
+  KeyMessage(KeyMessage&& from) noexcept
+    : KeyMessage() {
     *this = ::std::move(from);
   }
 
-  inline BatchData& operator=(BatchData&& from) noexcept {
+  inline KeyMessage& operator=(KeyMessage&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -397,34 +409,34 @@ class BatchData : public ::google::protobuf::Message /* @@protoc_insertion_point
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BatchData& default_instance();
+  static const KeyMessage& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BatchData* internal_default_instance() {
-    return reinterpret_cast<const BatchData*>(
-               &_BatchData_default_instance_);
+  static inline const KeyMessage* internal_default_instance() {
+    return reinterpret_cast<const KeyMessage*>(
+               &_KeyMessage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     2;
 
-  void Swap(BatchData* other);
-  friend void swap(BatchData& a, BatchData& b) {
+  void Swap(KeyMessage* other);
+  friend void swap(KeyMessage& a, KeyMessage& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline BatchData* New() const final {
-    return CreateMaybeMessage<BatchData>(NULL);
+  inline KeyMessage* New() const final {
+    return CreateMaybeMessage<KeyMessage>(NULL);
   }
 
-  BatchData* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BatchData>(arena);
+  KeyMessage* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<KeyMessage>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BatchData& from);
-  void MergeFrom(const BatchData& from);
+  void CopyFrom(const KeyMessage& from);
+  void MergeFrom(const KeyMessage& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -441,7 +453,7 @@ class BatchData : public ::google::protobuf::Message /* @@protoc_insertion_point
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(BatchData* other);
+  void InternalSwap(KeyMessage* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -479,11 +491,365 @@ class BatchData : public ::google::protobuf::Message /* @@protoc_insertion_point
   const ::google::protobuf::RepeatedPtrField< ::std::string>& data() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_data();
 
-  // @@protoc_insertion_point(class_scope:KafkaConsumerServer.BatchData)
+  // @@protoc_insertion_point(class_scope:KafkaConsumerServer.KeyMessage)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::std::string> data_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_kafka_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ValueMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:KafkaConsumerServer.ValueMessage) */ {
+ public:
+  ValueMessage();
+  virtual ~ValueMessage();
+
+  ValueMessage(const ValueMessage& from);
+
+  inline ValueMessage& operator=(const ValueMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ValueMessage(ValueMessage&& from) noexcept
+    : ValueMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline ValueMessage& operator=(ValueMessage&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ValueMessage& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ValueMessage* internal_default_instance() {
+    return reinterpret_cast<const ValueMessage*>(
+               &_ValueMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(ValueMessage* other);
+  friend void swap(ValueMessage& a, ValueMessage& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ValueMessage* New() const final {
+    return CreateMaybeMessage<ValueMessage>(NULL);
+  }
+
+  ValueMessage* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ValueMessage>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ValueMessage& from);
+  void MergeFrom(const ValueMessage& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ValueMessage* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated bytes Data = 1;
+  int data_size() const;
+  void clear_data();
+  static const int kDataFieldNumber = 1;
+  const ::std::string& data(int index) const;
+  ::std::string* mutable_data(int index);
+  void set_data(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_data(int index, ::std::string&& value);
+  #endif
+  void set_data(int index, const char* value);
+  void set_data(int index, const void* value, size_t size);
+  ::std::string* add_data();
+  void add_data(const ::std::string& value);
+  #if LANG_CXX11
+  void add_data(::std::string&& value);
+  #endif
+  void add_data(const char* value);
+  void add_data(const void* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& data() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_data();
+
+  // @@protoc_insertion_point(class_scope:KafkaConsumerServer.ValueMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> data_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_kafka_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class KeyValueData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:KafkaConsumerServer.KeyValueData) */ {
+ public:
+  KeyValueData();
+  virtual ~KeyValueData();
+
+  KeyValueData(const KeyValueData& from);
+
+  inline KeyValueData& operator=(const KeyValueData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  KeyValueData(KeyValueData&& from) noexcept
+    : KeyValueData() {
+    *this = ::std::move(from);
+  }
+
+  inline KeyValueData& operator=(KeyValueData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const KeyValueData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const KeyValueData* internal_default_instance() {
+    return reinterpret_cast<const KeyValueData*>(
+               &_KeyValueData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(KeyValueData* other);
+  friend void swap(KeyValueData& a, KeyValueData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline KeyValueData* New() const final {
+    return CreateMaybeMessage<KeyValueData>(NULL);
+  }
+
+  KeyValueData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<KeyValueData>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const KeyValueData& from);
+  void MergeFrom(const KeyValueData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(KeyValueData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bytes Key = 1;
+  void clear_key();
+  static const int kKeyFieldNumber = 1;
+  const ::std::string& key() const;
+  void set_key(const ::std::string& value);
+  #if LANG_CXX11
+  void set_key(::std::string&& value);
+  #endif
+  void set_key(const char* value);
+  void set_key(const void* value, size_t size);
+  ::std::string* mutable_key();
+  ::std::string* release_key();
+  void set_allocated_key(::std::string* key);
+
+  // bytes Value = 2;
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  const ::std::string& value() const;
+  void set_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value(::std::string&& value);
+  #endif
+  void set_value(const char* value);
+  void set_value(const void* value, size_t size);
+  ::std::string* mutable_value();
+  ::std::string* release_value();
+  void set_allocated_value(::std::string* value);
+
+  // @@protoc_insertion_point(class_scope:KafkaConsumerServer.KeyValueData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr key_;
+  ::google::protobuf::internal::ArenaStringPtr value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_kafka_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class KafkaMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:KafkaConsumerServer.KafkaMessage) */ {
+ public:
+  KafkaMessage();
+  virtual ~KafkaMessage();
+
+  KafkaMessage(const KafkaMessage& from);
+
+  inline KafkaMessage& operator=(const KafkaMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  KafkaMessage(KafkaMessage&& from) noexcept
+    : KafkaMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline KafkaMessage& operator=(KafkaMessage&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const KafkaMessage& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const KafkaMessage* internal_default_instance() {
+    return reinterpret_cast<const KafkaMessage*>(
+               &_KafkaMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(KafkaMessage* other);
+  friend void swap(KafkaMessage& a, KafkaMessage& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline KafkaMessage* New() const final {
+    return CreateMaybeMessage<KafkaMessage>(NULL);
+  }
+
+  KafkaMessage* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<KafkaMessage>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const KafkaMessage& from);
+  void MergeFrom(const KafkaMessage& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(KafkaMessage* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .KafkaConsumerServer.KeyValueData Data = 1;
+  int data_size() const;
+  void clear_data();
+  static const int kDataFieldNumber = 1;
+  ::KafkaConsumerServer::KeyValueData* mutable_data(int index);
+  ::google::protobuf::RepeatedPtrField< ::KafkaConsumerServer::KeyValueData >*
+      mutable_data();
+  const ::KafkaConsumerServer::KeyValueData& data(int index) const;
+  ::KafkaConsumerServer::KeyValueData* add_data();
+  const ::google::protobuf::RepeatedPtrField< ::KafkaConsumerServer::KeyValueData >&
+      data() const;
+
+  // @@protoc_insertion_point(class_scope:KafkaConsumerServer.KafkaMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::KafkaConsumerServer::KeyValueData > data_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_kafka_2eproto::TableStruct;
 };
@@ -524,7 +890,7 @@ class BatchInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_BatchInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    6;
 
   void Swap(BatchInfo* other);
   friend void swap(BatchInfo& a, BatchInfo& b) {
@@ -656,7 +1022,7 @@ class Empty : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_Empty_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    7;
 
   void Swap(Empty* other);
   friend void swap(Empty& a, Empty& b) {
@@ -1053,75 +1419,292 @@ inline void JobID::set_allocated_id(::std::string* id) {
 
 // -------------------------------------------------------------------
 
-// BatchData
+// KeyMessage
 
 // repeated bytes Data = 1;
-inline int BatchData::data_size() const {
+inline int KeyMessage::data_size() const {
   return data_.size();
 }
-inline void BatchData::clear_data() {
+inline void KeyMessage::clear_data() {
   data_.Clear();
 }
-inline const ::std::string& BatchData::data(int index) const {
-  // @@protoc_insertion_point(field_get:KafkaConsumerServer.BatchData.Data)
+inline const ::std::string& KeyMessage::data(int index) const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.KeyMessage.Data)
   return data_.Get(index);
 }
-inline ::std::string* BatchData::mutable_data(int index) {
-  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.BatchData.Data)
+inline ::std::string* KeyMessage::mutable_data(int index) {
+  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.KeyMessage.Data)
   return data_.Mutable(index);
 }
-inline void BatchData::set_data(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:KafkaConsumerServer.BatchData.Data)
+inline void KeyMessage::set_data(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.KeyMessage.Data)
   data_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void BatchData::set_data(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:KafkaConsumerServer.BatchData.Data)
+inline void KeyMessage::set_data(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.KeyMessage.Data)
   data_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void BatchData::set_data(int index, const char* value) {
+inline void KeyMessage::set_data(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
   data_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_set_char:KafkaConsumerServer.KeyMessage.Data)
 }
-inline void BatchData::set_data(int index, const void* value, size_t size) {
+inline void KeyMessage::set_data(int index, const void* value, size_t size) {
   data_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_set_pointer:KafkaConsumerServer.KeyMessage.Data)
 }
-inline ::std::string* BatchData::add_data() {
-  // @@protoc_insertion_point(field_add_mutable:KafkaConsumerServer.BatchData.Data)
+inline ::std::string* KeyMessage::add_data() {
+  // @@protoc_insertion_point(field_add_mutable:KafkaConsumerServer.KeyMessage.Data)
   return data_.Add();
 }
-inline void BatchData::add_data(const ::std::string& value) {
+inline void KeyMessage::add_data(const ::std::string& value) {
   data_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_add:KafkaConsumerServer.KeyMessage.Data)
 }
 #if LANG_CXX11
-inline void BatchData::add_data(::std::string&& value) {
+inline void KeyMessage::add_data(::std::string&& value) {
   data_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_add:KafkaConsumerServer.KeyMessage.Data)
 }
 #endif
-inline void BatchData::add_data(const char* value) {
+inline void KeyMessage::add_data(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   data_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_add_char:KafkaConsumerServer.KeyMessage.Data)
 }
-inline void BatchData::add_data(const void* value, size_t size) {
+inline void KeyMessage::add_data(const void* value, size_t size) {
   data_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:KafkaConsumerServer.BatchData.Data)
+  // @@protoc_insertion_point(field_add_pointer:KafkaConsumerServer.KeyMessage.Data)
 }
 inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-BatchData::data() const {
-  // @@protoc_insertion_point(field_list:KafkaConsumerServer.BatchData.Data)
+KeyMessage::data() const {
+  // @@protoc_insertion_point(field_list:KafkaConsumerServer.KeyMessage.Data)
   return data_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-BatchData::mutable_data() {
-  // @@protoc_insertion_point(field_mutable_list:KafkaConsumerServer.BatchData.Data)
+KeyMessage::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:KafkaConsumerServer.KeyMessage.Data)
   return &data_;
+}
+
+// -------------------------------------------------------------------
+
+// ValueMessage
+
+// repeated bytes Data = 1;
+inline int ValueMessage::data_size() const {
+  return data_.size();
+}
+inline void ValueMessage::clear_data() {
+  data_.Clear();
+}
+inline const ::std::string& ValueMessage::data(int index) const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.ValueMessage.Data)
+  return data_.Get(index);
+}
+inline ::std::string* ValueMessage::mutable_data(int index) {
+  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.ValueMessage.Data)
+  return data_.Mutable(index);
+}
+inline void ValueMessage::set_data(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.ValueMessage.Data)
+  data_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void ValueMessage::set_data(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.ValueMessage.Data)
+  data_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void ValueMessage::set_data(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  data_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:KafkaConsumerServer.ValueMessage.Data)
+}
+inline void ValueMessage::set_data(int index, const void* value, size_t size) {
+  data_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:KafkaConsumerServer.ValueMessage.Data)
+}
+inline ::std::string* ValueMessage::add_data() {
+  // @@protoc_insertion_point(field_add_mutable:KafkaConsumerServer.ValueMessage.Data)
+  return data_.Add();
+}
+inline void ValueMessage::add_data(const ::std::string& value) {
+  data_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:KafkaConsumerServer.ValueMessage.Data)
+}
+#if LANG_CXX11
+inline void ValueMessage::add_data(::std::string&& value) {
+  data_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:KafkaConsumerServer.ValueMessage.Data)
+}
+#endif
+inline void ValueMessage::add_data(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  data_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:KafkaConsumerServer.ValueMessage.Data)
+}
+inline void ValueMessage::add_data(const void* value, size_t size) {
+  data_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:KafkaConsumerServer.ValueMessage.Data)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+ValueMessage::data() const {
+  // @@protoc_insertion_point(field_list:KafkaConsumerServer.ValueMessage.Data)
+  return data_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+ValueMessage::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:KafkaConsumerServer.ValueMessage.Data)
+  return &data_;
+}
+
+// -------------------------------------------------------------------
+
+// KeyValueData
+
+// bytes Key = 1;
+inline void KeyValueData::clear_key() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& KeyValueData::key() const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.KeyValueData.Key)
+  return key_.GetNoArena();
+}
+inline void KeyValueData::set_key(const ::std::string& value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.KeyValueData.Key)
+}
+#if LANG_CXX11
+inline void KeyValueData::set_key(::std::string&& value) {
+  
+  key_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:KafkaConsumerServer.KeyValueData.Key)
+}
+#endif
+inline void KeyValueData::set_key(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:KafkaConsumerServer.KeyValueData.Key)
+}
+inline void KeyValueData::set_key(const void* value, size_t size) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:KafkaConsumerServer.KeyValueData.Key)
+}
+inline ::std::string* KeyValueData::mutable_key() {
+  
+  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.KeyValueData.Key)
+  return key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* KeyValueData::release_key() {
+  // @@protoc_insertion_point(field_release:KafkaConsumerServer.KeyValueData.Key)
+  
+  return key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void KeyValueData::set_allocated_key(::std::string* key) {
+  if (key != NULL) {
+    
+  } else {
+    
+  }
+  key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
+  // @@protoc_insertion_point(field_set_allocated:KafkaConsumerServer.KeyValueData.Key)
+}
+
+// bytes Value = 2;
+inline void KeyValueData::clear_value() {
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& KeyValueData::value() const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.KeyValueData.Value)
+  return value_.GetNoArena();
+}
+inline void KeyValueData::set_value(const ::std::string& value) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.KeyValueData.Value)
+}
+#if LANG_CXX11
+inline void KeyValueData::set_value(::std::string&& value) {
+  
+  value_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:KafkaConsumerServer.KeyValueData.Value)
+}
+#endif
+inline void KeyValueData::set_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:KafkaConsumerServer.KeyValueData.Value)
+}
+inline void KeyValueData::set_value(const void* value, size_t size) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:KafkaConsumerServer.KeyValueData.Value)
+}
+inline ::std::string* KeyValueData::mutable_value() {
+  
+  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.KeyValueData.Value)
+  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* KeyValueData::release_value() {
+  // @@protoc_insertion_point(field_release:KafkaConsumerServer.KeyValueData.Value)
+  
+  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void KeyValueData::set_allocated_value(::std::string* value) {
+  if (value != NULL) {
+    
+  } else {
+    
+  }
+  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set_allocated:KafkaConsumerServer.KeyValueData.Value)
+}
+
+// -------------------------------------------------------------------
+
+// KafkaMessage
+
+// repeated .KafkaConsumerServer.KeyValueData Data = 1;
+inline int KafkaMessage::data_size() const {
+  return data_.size();
+}
+inline void KafkaMessage::clear_data() {
+  data_.Clear();
+}
+inline ::KafkaConsumerServer::KeyValueData* KafkaMessage::mutable_data(int index) {
+  // @@protoc_insertion_point(field_mutable:KafkaConsumerServer.KafkaMessage.Data)
+  return data_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::KafkaConsumerServer::KeyValueData >*
+KafkaMessage::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:KafkaConsumerServer.KafkaMessage.Data)
+  return &data_;
+}
+inline const ::KafkaConsumerServer::KeyValueData& KafkaMessage::data(int index) const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.KafkaMessage.Data)
+  return data_.Get(index);
+}
+inline ::KafkaConsumerServer::KeyValueData* KafkaMessage::add_data() {
+  // @@protoc_insertion_point(field_add:KafkaConsumerServer.KafkaMessage.Data)
+  return data_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::KafkaConsumerServer::KeyValueData >&
+KafkaMessage::data() const {
+  // @@protoc_insertion_point(field_list:KafkaConsumerServer.KafkaMessage.Data)
+  return data_;
 }
 
 // -------------------------------------------------------------------
@@ -1230,6 +1813,12 @@ inline void BatchInfo::set_allocated_errormessage(::std::string* errormessage) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
