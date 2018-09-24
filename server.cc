@@ -56,17 +56,16 @@ public:
 		}
 		lock_guard<mutex> l(m);
 		string id = g.Next();
-		Job j(request);
-		if (j.Init())
+		auto j = std::make_unique<Job>(request);
+		if (j->Init())
 		{
 			jobs.emplace(id, std::move(j));
-			locks.emplace(id, std::make_unique<mutex>());
 			response->set_id(std::move(id));
 			return Status::OK;
 		}
 		else
 		{
-			return Status(StatusCode::INTERNAL, j.GetLastKafkaError());
+			return Status(StatusCode::INTERNAL, j->ErrorMessage());
 		}
 	}
 	virtual Status DeleteJob(ServerContext* context, const JobID* request, Empty* response)
@@ -78,15 +77,29 @@ public:
 		{
 			return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
 		}
-
-		auto l = locks.find(id);
-		{
-			lock_guard<mutex> g(*l->second);
-			jobs.erase(it);
-		}
-		locks.erase(l);
+		it->second->Finish();
+		jobs.erase(it);
 		return Status::OK;
 	}
+
+	virtual Status StartBatch(ServerContext* context, const JobID* request, Empty* response)
+	{
+		const string& id = request->id();
+		lock_guard<mutex> g(m);
+		auto it = jobs.find(id);
+		if (it == jobs.end())
+		{
+			return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
+		}
+
+		if (!it->second->StartBatch())
+		{
+			return Status(StatusCode::INVALID_ARGUMENT, "Job is already started");
+		}
+
+		return Status::OK;
+	}
+
 	virtual Status ReadKey(ServerContext* context, const JobID* request, ServerWriter<KeyMessage>* writer)
 	{
 		return ReadPart<KeyMessage>(request, writer);
@@ -104,30 +117,21 @@ public:
 	{
 		const string& id = request->id();
 		auto it = jobs.end();
-		auto l = locks.end();
 		{
 			lock_guard<mutex> g(m);
 			it = jobs.find(id);
 			if (it == jobs.end())
 			{
-				m.unlock();
 				return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
 			}
-			/* Acquire per job lock before releasing global lock.
-			 * Ensure only one call and prevent job from being deleted.
-			 */
-			l = locks.find(id);
-			l->second->lock();
 		}
-		unique_lock<mutex> ul(*l->second, std::adopt_lock);
-
-		Job& job = it->second;
-		response->set_eof(job.eof);
-		response->set_lastoffset(job.lastOffset);
-		if (job.errorCode != 0)
+		Job& job = *it->second;
+		response->set_eof(job.PartitionEOF());
+		response->set_lastoffset(job.LastOffset());
+		if (job.ErrorCode() != 0)
 		{
-			response->set_errorcode(job.errorCode);
-			response->set_errormessage(job.errorMessage);
+			response->set_errorcode(job.ErrorCode());
+			response->set_errormessage(job.ErrorMessage());
 		}
 		return Status::OK;
 	}
@@ -137,44 +141,41 @@ private:
 	{
 		const string& id = request->id();
 		auto it = jobs.end();
-		auto l = locks.end();
 		{
 			lock_guard<mutex> g(m);
 			it = jobs.find(id);
 			if (it == jobs.end())
 			{
-				m.unlock();
 				return Status(StatusCode::INVALID_ARGUMENT, "Invalid JobID");
 			}
-			/* Acquire per job lock before releasing global lock.
-			 * Ensure only one call and prevent job from being deleted.
-			 */
-			l = locks.find(id);
-			l->second->lock();
+
+			if (!it->second->AddWorker())
+			{
+				return Status(StatusCode::INVALID_ARGUMENT, "Job isn't started");
+			}
 		}
-		unique_lock<mutex> ul(*l->second, std::adopt_lock);
 
-		Job& job = it->second;
-		job.Start();
-		while (!job.Finish())
+		std::vector<Job::KeyValue> data;
+		Job& job = *it->second;
+		job.Poll([](Job::ElementType& e, void* p) {
+			std::vector<Job::KeyValue>* param = (std::vector<Job::KeyValue>*)p;
+			param->reserve(e.available);
+			for (size_t i = 0; i < e.available; i++)
+			{
+				param->emplace_back(std::move(e.batch[i]));
+			}
+		}, &data);
+		for (auto& kv : data)
 		{
-			if (!job.Poll())
-			{
-				return Status(StatusCode::INTERNAL, job.GetLastKafkaError());
-			}
-
-			auto& data = job.GetData();
 			T msg;
-			for (size_t i = 0; i < data.count; i++)
-			{
-				FillMessage(msg, data[i]);
-			}
+			FillMessage(msg, kv);
 			if (!writer->Write(msg))
 			{
 				break;
 			}
 		}
 
+		it->second->RemoveWorker();
 		return Status::OK;
 	}
 	bool CheckAddJob(const ConsumerJob* request)
@@ -185,12 +186,12 @@ private:
 		if (request->offset() < 0) return false;
 		if (request->batchsize() <= 0) return false;
 		if (request->batchinterval() < 200) return false;
+		if (request->queuesize() <= 0) return false;
 		return true;
 	}
 
 	IDGenerator g;
-	map<string, Job> jobs;
-	map<string, unique_ptr<mutex>> locks;
+	map<string, unique_ptr<Job>> jobs;
 	mutex m;
 };
 

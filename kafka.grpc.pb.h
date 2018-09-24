@@ -48,6 +48,13 @@ class Kafka final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>> PrepareAsyncDeleteJob(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>>(PrepareAsyncDeleteJobRaw(context, request, cq));
     }
+    virtual ::grpc::Status StartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::KafkaConsumerServer::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>> AsyncStartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>>(AsyncStartBatchRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>> PrepareAsyncStartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>>(PrepareAsyncStartBatchRaw(context, request, cq));
+    }
     std::unique_ptr< ::grpc::ClientReaderInterface< ::KafkaConsumerServer::KeyMessage>> ReadKey(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
       return std::unique_ptr< ::grpc::ClientReaderInterface< ::KafkaConsumerServer::KeyMessage>>(ReadKeyRaw(context, request));
     }
@@ -87,6 +94,8 @@ class Kafka final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::JobID>* PrepareAsyncAddJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::ConsumerJob& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>* AsyncDeleteJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>* PrepareAsyncDeleteJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>* AsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::KafkaConsumerServer::Empty>* PrepareAsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderInterface< ::KafkaConsumerServer::KeyMessage>* ReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::KafkaConsumerServer::KeyMessage>* AsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::KafkaConsumerServer::KeyMessage>* PrepareAsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) = 0;
@@ -115,6 +124,13 @@ class Kafka final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>> PrepareAsyncDeleteJob(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>>(PrepareAsyncDeleteJobRaw(context, request, cq));
+    }
+    ::grpc::Status StartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::KafkaConsumerServer::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>> AsyncStartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>>(AsyncStartBatchRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>> PrepareAsyncStartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>>(PrepareAsyncStartBatchRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientReader< ::KafkaConsumerServer::KeyMessage>> ReadKey(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
       return std::unique_ptr< ::grpc::ClientReader< ::KafkaConsumerServer::KeyMessage>>(ReadKeyRaw(context, request));
@@ -157,6 +173,8 @@ class Kafka final {
     ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::JobID>* PrepareAsyncAddJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::ConsumerJob& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* AsyncDeleteJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* PrepareAsyncDeleteJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* AsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* PrepareAsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientReader< ::KafkaConsumerServer::KeyMessage>* ReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) override;
     ::grpc::ClientAsyncReader< ::KafkaConsumerServer::KeyMessage>* AsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReader< ::KafkaConsumerServer::KeyMessage>* PrepareAsyncReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
@@ -170,6 +188,7 @@ class Kafka final {
     ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::BatchInfo>* PrepareAsyncGetBatchInfoRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_AddJob_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteJob_;
+    const ::grpc::internal::RpcMethod rpcmethod_StartBatch_;
     const ::grpc::internal::RpcMethod rpcmethod_ReadKey_;
     const ::grpc::internal::RpcMethod rpcmethod_ReadValue_;
     const ::grpc::internal::RpcMethod rpcmethod_ReadMessage_;
@@ -183,6 +202,7 @@ class Kafka final {
     virtual ~Service();
     virtual ::grpc::Status AddJob(::grpc::ServerContext* context, const ::KafkaConsumerServer::ConsumerJob* request, ::KafkaConsumerServer::JobID* response);
     virtual ::grpc::Status DeleteJob(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response);
+    virtual ::grpc::Status StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response);
     virtual ::grpc::Status ReadKey(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::KeyMessage>* writer);
     virtual ::grpc::Status ReadValue(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::ValueMessage>* writer);
     virtual ::grpc::Status ReadMessage(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::grpc::ServerWriter< ::KafkaConsumerServer::KafkaMessage>* writer);
@@ -229,12 +249,32 @@ class Kafka final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_StartBatch : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_StartBatch() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_StartBatch() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestStartBatch(::grpc::ServerContext* context, ::KafkaConsumerServer::JobID* request, ::grpc::ServerAsyncResponseWriter< ::KafkaConsumerServer::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_ReadKey : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadKey() {
-      ::grpc::Service::MarkMethodAsync(2);
+      ::grpc::Service::MarkMethodAsync(3);
     }
     ~WithAsyncMethod_ReadKey() override {
       BaseClassMustBeDerivedFromService(this);
@@ -245,7 +285,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadKey(::grpc::ServerContext* context, ::KafkaConsumerServer::JobID* request, ::grpc::ServerAsyncWriter< ::KafkaConsumerServer::KeyMessage>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(2, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(3, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -254,7 +294,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadValue() {
-      ::grpc::Service::MarkMethodAsync(3);
+      ::grpc::Service::MarkMethodAsync(4);
     }
     ~WithAsyncMethod_ReadValue() override {
       BaseClassMustBeDerivedFromService(this);
@@ -265,7 +305,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadValue(::grpc::ServerContext* context, ::KafkaConsumerServer::JobID* request, ::grpc::ServerAsyncWriter< ::KafkaConsumerServer::ValueMessage>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(3, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -274,7 +314,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadMessage() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_ReadMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -285,7 +325,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadMessage(::grpc::ServerContext* context, ::KafkaConsumerServer::JobID* request, ::grpc::ServerAsyncWriter< ::KafkaConsumerServer::KafkaMessage>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(5, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -294,7 +334,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_GetBatchInfo() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_GetBatchInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -305,10 +345,10 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetBatchInfo(::grpc::ServerContext* context, ::KafkaConsumerServer::JobID* request, ::grpc::ServerAsyncResponseWriter< ::KafkaConsumerServer::BatchInfo>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_AddJob<WithAsyncMethod_DeleteJob<WithAsyncMethod_ReadKey<WithAsyncMethod_ReadValue<WithAsyncMethod_ReadMessage<WithAsyncMethod_GetBatchInfo<Service > > > > > > AsyncService;
+  typedef WithAsyncMethod_AddJob<WithAsyncMethod_DeleteJob<WithAsyncMethod_StartBatch<WithAsyncMethod_ReadKey<WithAsyncMethod_ReadValue<WithAsyncMethod_ReadMessage<WithAsyncMethod_GetBatchInfo<Service > > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_AddJob : public BaseClass {
    private:
@@ -344,12 +384,29 @@ class Kafka final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_StartBatch : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_StartBatch() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_StartBatch() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_ReadKey : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadKey() {
-      ::grpc::Service::MarkMethodGeneric(2);
+      ::grpc::Service::MarkMethodGeneric(3);
     }
     ~WithGenericMethod_ReadKey() override {
       BaseClassMustBeDerivedFromService(this);
@@ -366,7 +423,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadValue() {
-      ::grpc::Service::MarkMethodGeneric(3);
+      ::grpc::Service::MarkMethodGeneric(4);
     }
     ~WithGenericMethod_ReadValue() override {
       BaseClassMustBeDerivedFromService(this);
@@ -383,7 +440,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadMessage() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_ReadMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -400,7 +457,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_GetBatchInfo() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_GetBatchInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -452,12 +509,32 @@ class Kafka final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_StartBatch : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_StartBatch() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_StartBatch() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestStartBatch(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_ReadKey : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadKey() {
-      ::grpc::Service::MarkMethodRaw(2);
+      ::grpc::Service::MarkMethodRaw(3);
     }
     ~WithRawMethod_ReadKey() override {
       BaseClassMustBeDerivedFromService(this);
@@ -468,7 +545,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadKey(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(2, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(3, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -477,7 +554,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadValue() {
-      ::grpc::Service::MarkMethodRaw(3);
+      ::grpc::Service::MarkMethodRaw(4);
     }
     ~WithRawMethod_ReadValue() override {
       BaseClassMustBeDerivedFromService(this);
@@ -488,7 +565,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadValue(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(3, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -497,7 +574,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadMessage() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_ReadMessage() override {
       BaseClassMustBeDerivedFromService(this);
@@ -508,7 +585,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadMessage(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(4, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(5, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -517,7 +594,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_GetBatchInfo() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_GetBatchInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -528,7 +605,7 @@ class Kafka final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetBatchInfo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -572,12 +649,32 @@ class Kafka final {
     virtual ::grpc::Status StreamedDeleteJob(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::KafkaConsumerServer::JobID,::KafkaConsumerServer::Empty>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_StartBatch : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_StartBatch() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler< ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::Empty>(std::bind(&WithStreamedUnaryMethod_StartBatch<BaseClass>::StreamedStartBatch, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_StartBatch() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedStartBatch(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::KafkaConsumerServer::JobID,::KafkaConsumerServer::Empty>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_GetBatchInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_GetBatchInfo() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler< ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::BatchInfo>(std::bind(&WithStreamedUnaryMethod_GetBatchInfo<BaseClass>::StreamedGetBatchInfo, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_GetBatchInfo() override {
@@ -591,14 +688,14 @@ class Kafka final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetBatchInfo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::KafkaConsumerServer::JobID,::KafkaConsumerServer::BatchInfo>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_AddJob<WithStreamedUnaryMethod_DeleteJob<WithStreamedUnaryMethod_GetBatchInfo<Service > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_AddJob<WithStreamedUnaryMethod_DeleteJob<WithStreamedUnaryMethod_StartBatch<WithStreamedUnaryMethod_GetBatchInfo<Service > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_ReadKey : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithSplitStreamingMethod_ReadKey() {
-      ::grpc::Service::MarkMethodStreamed(2,
+      ::grpc::Service::MarkMethodStreamed(3,
         new ::grpc::internal::SplitServerStreamingHandler< ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KeyMessage>(std::bind(&WithSplitStreamingMethod_ReadKey<BaseClass>::StreamedReadKey, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithSplitStreamingMethod_ReadKey() override {
@@ -618,7 +715,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithSplitStreamingMethod_ReadValue() {
-      ::grpc::Service::MarkMethodStreamed(3,
+      ::grpc::Service::MarkMethodStreamed(4,
         new ::grpc::internal::SplitServerStreamingHandler< ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::ValueMessage>(std::bind(&WithSplitStreamingMethod_ReadValue<BaseClass>::StreamedReadValue, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithSplitStreamingMethod_ReadValue() override {
@@ -638,7 +735,7 @@ class Kafka final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithSplitStreamingMethod_ReadMessage() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::SplitServerStreamingHandler< ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KafkaMessage>(std::bind(&WithSplitStreamingMethod_ReadMessage<BaseClass>::StreamedReadMessage, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithSplitStreamingMethod_ReadMessage() override {
@@ -653,7 +750,7 @@ class Kafka final {
     virtual ::grpc::Status StreamedReadMessage(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::KafkaConsumerServer::JobID,::KafkaConsumerServer::KafkaMessage>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_ReadKey<WithSplitStreamingMethod_ReadValue<WithSplitStreamingMethod_ReadMessage<Service > > > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_AddJob<WithStreamedUnaryMethod_DeleteJob<WithSplitStreamingMethod_ReadKey<WithSplitStreamingMethod_ReadValue<WithSplitStreamingMethod_ReadMessage<WithStreamedUnaryMethod_GetBatchInfo<Service > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_AddJob<WithStreamedUnaryMethod_DeleteJob<WithStreamedUnaryMethod_StartBatch<WithSplitStreamingMethod_ReadKey<WithSplitStreamingMethod_ReadValue<WithSplitStreamingMethod_ReadMessage<WithStreamedUnaryMethod_GetBatchInfo<Service > > > > > > > StreamedService;
 };
 
 }  // namespace KafkaConsumerServer

@@ -18,6 +18,7 @@ namespace KafkaConsumerServer {
 static const char* Kafka_method_names[] = {
   "/KafkaConsumerServer.Kafka/AddJob",
   "/KafkaConsumerServer.Kafka/DeleteJob",
+  "/KafkaConsumerServer.Kafka/StartBatch",
   "/KafkaConsumerServer.Kafka/ReadKey",
   "/KafkaConsumerServer.Kafka/ReadValue",
   "/KafkaConsumerServer.Kafka/ReadMessage",
@@ -33,10 +34,11 @@ std::unique_ptr< Kafka::Stub> Kafka::NewStub(const std::shared_ptr< ::grpc::Chan
 Kafka::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_AddJob_(Kafka_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_DeleteJob_(Kafka_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadKey_(Kafka_method_names[2], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
-  , rpcmethod_ReadValue_(Kafka_method_names[3], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
-  , rpcmethod_ReadMessage_(Kafka_method_names[4], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
-  , rpcmethod_GetBatchInfo_(Kafka_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StartBatch_(Kafka_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadKey_(Kafka_method_names[3], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_ReadValue_(Kafka_method_names[4], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_ReadMessage_(Kafka_method_names[5], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_GetBatchInfo_(Kafka_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Kafka::Stub::AddJob(::grpc::ClientContext* context, const ::KafkaConsumerServer::ConsumerJob& request, ::KafkaConsumerServer::JobID* response) {
@@ -61,6 +63,18 @@ Kafka::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
 
 ::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* Kafka::Stub::PrepareAsyncDeleteJobRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::KafkaConsumerServer::Empty>::Create(channel_.get(), cq, rpcmethod_DeleteJob_, context, request, false);
+}
+
+::grpc::Status Kafka::Stub::StartBatch(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::KafkaConsumerServer::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_StartBatch_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* Kafka::Stub::AsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::KafkaConsumerServer::Empty>::Create(channel_.get(), cq, rpcmethod_StartBatch_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::KafkaConsumerServer::Empty>* Kafka::Stub::PrepareAsyncStartBatchRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::KafkaConsumerServer::Empty>::Create(channel_.get(), cq, rpcmethod_StartBatch_, context, request, false);
 }
 
 ::grpc::ClientReader< ::KafkaConsumerServer::KeyMessage>* Kafka::Stub::ReadKeyRaw(::grpc::ClientContext* context, const ::KafkaConsumerServer::JobID& request) {
@@ -124,21 +138,26 @@ Kafka::Service::Service() {
           std::mem_fn(&Kafka::Service::DeleteJob), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Kafka_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::Empty>(
+          std::mem_fn(&Kafka::Service::StartBatch), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Kafka_method_names[3],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
       new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KeyMessage>(
           std::mem_fn(&Kafka::Service::ReadKey), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Kafka_method_names[3],
+      Kafka_method_names[4],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
       new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::ValueMessage>(
           std::mem_fn(&Kafka::Service::ReadValue), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Kafka_method_names[4],
+      Kafka_method_names[5],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
       new ::grpc::internal::ServerStreamingHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::KafkaMessage>(
           std::mem_fn(&Kafka::Service::ReadMessage), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Kafka_method_names[5],
+      Kafka_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Kafka::Service, ::KafkaConsumerServer::JobID, ::KafkaConsumerServer::BatchInfo>(
           std::mem_fn(&Kafka::Service::GetBatchInfo), this)));
@@ -155,6 +174,13 @@ Kafka::Service::~Service() {
 }
 
 ::grpc::Status Kafka::Service::DeleteJob(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Kafka::Service::StartBatch(::grpc::ServerContext* context, const ::KafkaConsumerServer::JobID* request, ::KafkaConsumerServer::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

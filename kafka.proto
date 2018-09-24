@@ -9,8 +9,9 @@ message ConsumerJob {
     int64 Offset = 4;
     int32 BatchInterval = 5;
     int32 BatchSize = 6;
-    string Destination = 7;
-    string Format = 8;
+    int32 QueueSize = 7;
+    string Destination = 8;
+    string Format = 9;
 }
 
 message JobID {
@@ -24,7 +25,6 @@ message KeyMessage {
 message ValueMessage {
     repeated bytes Data = 1;
 }
-
 
 message KeyValueData {
     bytes Key = 1;
@@ -47,6 +47,7 @@ message Empty {}
 service Kafka {
     rpc AddJob(ConsumerJob) returns(JobID) {}
     rpc DeleteJob(JobID) returns(Empty) {}
+    rpc StartBatch(JobID) returns(Empty) {}
     rpc ReadKey(JobID) returns(stream KeyMessage) {}
     rpc ReadValue(JobID) returns(stream ValueMessage) {}
     rpc ReadMessage(JobID) returns(stream KafkaMessage) {}

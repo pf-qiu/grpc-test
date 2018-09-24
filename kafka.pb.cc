@@ -203,6 +203,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, offset_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, batchinterval_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, batchsize_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, queuesize_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, destination_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::KafkaConsumerServer::ConsumerJob, format_),
   ~0u,  // no _has_bits_
@@ -253,13 +254,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::KafkaConsumerServer::ConsumerJob)},
-  { 13, -1, sizeof(::KafkaConsumerServer::JobID)},
-  { 19, -1, sizeof(::KafkaConsumerServer::KeyMessage)},
-  { 25, -1, sizeof(::KafkaConsumerServer::ValueMessage)},
-  { 31, -1, sizeof(::KafkaConsumerServer::KeyValueData)},
-  { 38, -1, sizeof(::KafkaConsumerServer::KafkaMessage)},
-  { 44, -1, sizeof(::KafkaConsumerServer::BatchInfo)},
-  { 53, -1, sizeof(::KafkaConsumerServer::Empty)},
+  { 14, -1, sizeof(::KafkaConsumerServer::JobID)},
+  { 20, -1, sizeof(::KafkaConsumerServer::KeyMessage)},
+  { 26, -1, sizeof(::KafkaConsumerServer::ValueMessage)},
+  { 32, -1, sizeof(::KafkaConsumerServer::KeyValueData)},
+  { 39, -1, sizeof(::KafkaConsumerServer::KafkaMessage)},
+  { 45, -1, sizeof(::KafkaConsumerServer::BatchInfo)},
+  { 54, -1, sizeof(::KafkaConsumerServer::Empty)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -294,34 +295,36 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\013kafka.proto\022\023KafkaConsumerServer\"\241\001\n\013C"
+      "\n\013kafka.proto\022\023KafkaConsumerServer\"\264\001\n\013C"
       "onsumerJob\022\r\n\005Topic\030\001 \001(\t\022\017\n\007Brokers\030\002 \001"
       "(\t\022\023\n\013PartitionID\030\003 \001(\005\022\016\n\006Offset\030\004 \001(\003\022"
       "\025\n\rBatchInterval\030\005 \001(\005\022\021\n\tBatchSize\030\006 \001("
-      "\005\022\023\n\013Destination\030\007 \001(\t\022\016\n\006Format\030\010 \001(\t\"\023"
-      "\n\005JobID\022\n\n\002ID\030\001 \001(\t\"\032\n\nKeyMessage\022\014\n\004Dat"
-      "a\030\001 \003(\014\"\034\n\014ValueMessage\022\014\n\004Data\030\001 \003(\014\"*\n"
-      "\014KeyValueData\022\013\n\003Key\030\001 \001(\014\022\r\n\005Value\030\002 \001("
-      "\014\"\?\n\014KafkaMessage\022/\n\004Data\030\001 \003(\0132!.KafkaC"
-      "onsumerServer.KeyValueData\"U\n\tBatchInfo\022"
-      "\022\n\nLastOffset\030\001 \001(\003\022\013\n\003EOF\030\002 \001(\010\022\021\n\tErro"
-      "rCode\030\003 \001(\005\022\024\n\014ErrorMessage\030\004 \001(\t\"\007\n\005Emp"
-      "ty2\324\003\n\005Kafka\022H\n\006AddJob\022 .KafkaConsumerSe"
-      "rver.ConsumerJob\032\032.KafkaConsumerServer.J"
-      "obID\"\000\022E\n\tDeleteJob\022\032.KafkaConsumerServe"
-      "r.JobID\032\032.KafkaConsumerServer.Empty\"\000\022J\n"
-      "\007ReadKey\022\032.KafkaConsumerServer.JobID\032\037.K"
-      "afkaConsumerServer.KeyMessage\"\0000\001\022N\n\tRea"
-      "dValue\022\032.KafkaConsumerServer.JobID\032!.Kaf"
-      "kaConsumerServer.ValueMessage\"\0000\001\022P\n\013Rea"
-      "dMessage\022\032.KafkaConsumerServer.JobID\032!.K"
-      "afkaConsumerServer.KafkaMessage\"\0000\001\022L\n\014G"
-      "etBatchInfo\022\032.KafkaConsumerServer.JobID\032"
-      "\036.KafkaConsumerServer.BatchInfo\"\000b\006proto"
-      "3"
+      "\005\022\021\n\tQueueSize\030\007 \001(\005\022\023\n\013Destination\030\010 \001("
+      "\t\022\016\n\006Format\030\t \001(\t\"\023\n\005JobID\022\n\n\002ID\030\001 \001(\t\"\032"
+      "\n\nKeyMessage\022\014\n\004Data\030\001 \003(\014\"\034\n\014ValueMessa"
+      "ge\022\014\n\004Data\030\001 \003(\014\"*\n\014KeyValueData\022\013\n\003Key\030"
+      "\001 \001(\014\022\r\n\005Value\030\002 \001(\014\"\?\n\014KafkaMessage\022/\n\004"
+      "Data\030\001 \003(\0132!.KafkaConsumerServer.KeyValu"
+      "eData\"U\n\tBatchInfo\022\022\n\nLastOffset\030\001 \001(\003\022\013"
+      "\n\003EOF\030\002 \001(\010\022\021\n\tErrorCode\030\003 \001(\005\022\024\n\014ErrorM"
+      "essage\030\004 \001(\t\"\007\n\005Empty2\234\004\n\005Kafka\022H\n\006AddJo"
+      "b\022 .KafkaConsumerServer.ConsumerJob\032\032.Ka"
+      "fkaConsumerServer.JobID\"\000\022E\n\tDeleteJob\022\032"
+      ".KafkaConsumerServer.JobID\032\032.KafkaConsum"
+      "erServer.Empty\"\000\022F\n\nStartBatch\022\032.KafkaCo"
+      "nsumerServer.JobID\032\032.KafkaConsumerServer"
+      ".Empty\"\000\022J\n\007ReadKey\022\032.KafkaConsumerServe"
+      "r.JobID\032\037.KafkaConsumerServer.KeyMessage"
+      "\"\0000\001\022N\n\tReadValue\022\032.KafkaConsumerServer."
+      "JobID\032!.KafkaConsumerServer.ValueMessage"
+      "\"\0000\001\022P\n\013ReadMessage\022\032.KafkaConsumerServe"
+      "r.JobID\032!.KafkaConsumerServer.KafkaMessa"
+      "ge\"\0000\001\022L\n\014GetBatchInfo\022\032.KafkaConsumerSe"
+      "rver.JobID\032\036.KafkaConsumerServer.BatchIn"
+      "fo\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 961);
+      descriptor, 1052);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "kafka.proto", &protobuf_RegisterTypes);
 }
@@ -350,6 +353,7 @@ const int ConsumerJob::kPartitionIDFieldNumber;
 const int ConsumerJob::kOffsetFieldNumber;
 const int ConsumerJob::kBatchIntervalFieldNumber;
 const int ConsumerJob::kBatchSizeFieldNumber;
+const int ConsumerJob::kQueueSizeFieldNumber;
 const int ConsumerJob::kDestinationFieldNumber;
 const int ConsumerJob::kFormatFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -382,8 +386,8 @@ ConsumerJob::ConsumerJob(const ConsumerJob& from)
     format_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.format_);
   }
   ::memcpy(&offset_, &from.offset_,
-    static_cast<size_t>(reinterpret_cast<char*>(&batchsize_) -
-    reinterpret_cast<char*>(&offset_)) + sizeof(batchsize_));
+    static_cast<size_t>(reinterpret_cast<char*>(&queuesize_) -
+    reinterpret_cast<char*>(&offset_)) + sizeof(queuesize_));
   // @@protoc_insertion_point(copy_constructor:KafkaConsumerServer.ConsumerJob)
 }
 
@@ -393,8 +397,8 @@ void ConsumerJob::SharedCtor() {
   destination_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   format_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&offset_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&batchsize_) -
-      reinterpret_cast<char*>(&offset_)) + sizeof(batchsize_));
+      reinterpret_cast<char*>(&queuesize_) -
+      reinterpret_cast<char*>(&offset_)) + sizeof(queuesize_));
 }
 
 ConsumerJob::~ConsumerJob() {
@@ -434,8 +438,8 @@ void ConsumerJob::Clear() {
   destination_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   format_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&offset_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&batchsize_) -
-      reinterpret_cast<char*>(&offset_)) + sizeof(batchsize_));
+      reinterpret_cast<char*>(&queuesize_) -
+      reinterpret_cast<char*>(&offset_)) + sizeof(queuesize_));
   _internal_metadata_.Clear();
 }
 
@@ -537,10 +541,24 @@ bool ConsumerJob::MergePartialFromCodedStream(
         break;
       }
 
-      // string Destination = 7;
+      // int32 QueueSize = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &queuesize_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string Destination = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_destination()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -553,10 +571,10 @@ bool ConsumerJob::MergePartialFromCodedStream(
         break;
       }
 
-      // string Format = 8;
-      case 8: {
+      // string Format = 9;
+      case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_format()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -635,24 +653,29 @@ void ConsumerJob::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->batchsize(), output);
   }
 
-  // string Destination = 7;
+  // int32 QueueSize = 7;
+  if (this->queuesize() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->queuesize(), output);
+  }
+
+  // string Destination = 8;
   if (this->destination().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->destination().data(), static_cast<int>(this->destination().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "KafkaConsumerServer.ConsumerJob.Destination");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      7, this->destination(), output);
+      8, this->destination(), output);
   }
 
-  // string Format = 8;
+  // string Format = 9;
   if (this->format().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->format().data(), static_cast<int>(this->format().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "KafkaConsumerServer.ConsumerJob.Format");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      8, this->format(), output);
+      9, this->format(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -711,7 +734,12 @@ void ConsumerJob::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->batchsize(), target);
   }
 
-  // string Destination = 7;
+  // int32 QueueSize = 7;
+  if (this->queuesize() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->queuesize(), target);
+  }
+
+  // string Destination = 8;
   if (this->destination().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->destination().data(), static_cast<int>(this->destination().length()),
@@ -719,10 +747,10 @@ void ConsumerJob::SerializeWithCachedSizes(
       "KafkaConsumerServer.ConsumerJob.Destination");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        7, this->destination(), target);
+        8, this->destination(), target);
   }
 
-  // string Format = 8;
+  // string Format = 9;
   if (this->format().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->format().data(), static_cast<int>(this->format().length()),
@@ -730,7 +758,7 @@ void ConsumerJob::SerializeWithCachedSizes(
       "KafkaConsumerServer.ConsumerJob.Format");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        8, this->format(), target);
+        9, this->format(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -764,14 +792,14 @@ size_t ConsumerJob::ByteSizeLong() const {
         this->brokers());
   }
 
-  // string Destination = 7;
+  // string Destination = 8;
   if (this->destination().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->destination());
   }
 
-  // string Format = 8;
+  // string Format = 9;
   if (this->format().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -804,6 +832,13 @@ size_t ConsumerJob::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->batchsize());
+  }
+
+  // int32 QueueSize = 7;
+  if (this->queuesize() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->queuesize());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -861,6 +896,9 @@ void ConsumerJob::MergeFrom(const ConsumerJob& from) {
   if (from.batchsize() != 0) {
     set_batchsize(from.batchsize());
   }
+  if (from.queuesize() != 0) {
+    set_queuesize(from.queuesize());
+  }
 }
 
 void ConsumerJob::CopyFrom(const ::google::protobuf::Message& from) {
@@ -899,6 +937,7 @@ void ConsumerJob::InternalSwap(ConsumerJob* other) {
   swap(partitionid_, other->partitionid_);
   swap(batchinterval_, other->batchinterval_);
   swap(batchsize_, other->batchsize_);
+  swap(queuesize_, other->queuesize_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

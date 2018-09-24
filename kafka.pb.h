@@ -202,9 +202,9 @@ class ConsumerJob : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_brokers();
   void set_allocated_brokers(::std::string* brokers);
 
-  // string Destination = 7;
+  // string Destination = 8;
   void clear_destination();
-  static const int kDestinationFieldNumber = 7;
+  static const int kDestinationFieldNumber = 8;
   const ::std::string& destination() const;
   void set_destination(const ::std::string& value);
   #if LANG_CXX11
@@ -216,9 +216,9 @@ class ConsumerJob : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_destination();
   void set_allocated_destination(::std::string* destination);
 
-  // string Format = 8;
+  // string Format = 9;
   void clear_format();
-  static const int kFormatFieldNumber = 8;
+  static const int kFormatFieldNumber = 9;
   const ::std::string& format() const;
   void set_format(const ::std::string& value);
   #if LANG_CXX11
@@ -254,6 +254,12 @@ class ConsumerJob : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 batchsize() const;
   void set_batchsize(::google::protobuf::int32 value);
 
+  // int32 QueueSize = 7;
+  void clear_queuesize();
+  static const int kQueueSizeFieldNumber = 7;
+  ::google::protobuf::int32 queuesize() const;
+  void set_queuesize(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:KafkaConsumerServer.ConsumerJob)
  private:
 
@@ -266,6 +272,7 @@ class ConsumerJob : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 partitionid_;
   ::google::protobuf::int32 batchinterval_;
   ::google::protobuf::int32 batchsize_;
+  ::google::protobuf::int32 queuesize_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_kafka_2eproto::TableStruct;
 };
@@ -1254,7 +1261,21 @@ inline void ConsumerJob::set_batchsize(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:KafkaConsumerServer.ConsumerJob.BatchSize)
 }
 
-// string Destination = 7;
+// int32 QueueSize = 7;
+inline void ConsumerJob::clear_queuesize() {
+  queuesize_ = 0;
+}
+inline ::google::protobuf::int32 ConsumerJob::queuesize() const {
+  // @@protoc_insertion_point(field_get:KafkaConsumerServer.ConsumerJob.QueueSize)
+  return queuesize_;
+}
+inline void ConsumerJob::set_queuesize(::google::protobuf::int32 value) {
+  
+  queuesize_ = value;
+  // @@protoc_insertion_point(field_set:KafkaConsumerServer.ConsumerJob.QueueSize)
+}
+
+// string Destination = 8;
 inline void ConsumerJob::clear_destination() {
   destination_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1307,7 +1328,7 @@ inline void ConsumerJob::set_allocated_destination(::std::string* destination) {
   // @@protoc_insertion_point(field_set_allocated:KafkaConsumerServer.ConsumerJob.Destination)
 }
 
-// string Format = 8;
+// string Format = 9;
 inline void ConsumerJob::clear_format() {
   format_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }

@@ -20,11 +20,77 @@ using std::endl;
 
 const char* brokers;
 const char* topic;
-const int channels = 4;
+const int channels = 1;
 const int basePort = 6000;
 size_t totalMessages, totalBytes;
 std::unique_ptr<Kafka::Stub> stubs[channels];
 std::mutex m;
+
+JobID AddJob(const ConsumerJob& job, Kafka::Stub* stub)
+{
+	ClientContext ctx;
+	JobID id;
+	stub->AddJob(&ctx, job, &id);
+	return id;
+}
+bool DeleteJob(const JobID& id, Kafka::Stub* stub)
+{
+	Empty empty;
+	ClientContext ctx;
+	Status s = stub->DeleteJob(&ctx, id, &empty);
+	if (!s.ok())
+	{
+		cout << "DeleteJob failed" << endl;
+		return false;
+	}
+	return true;
+}
+
+
+void StartBatch(const JobID& id, Kafka::Stub* stub)
+{
+	ClientContext ctx;
+	Empty empty;
+	stub->StartBatch(&ctx, id, &empty);
+}
+
+bool ReadValue(const JobID& id, Kafka::Stub* stub, size_t& messages, size_t& bytes)
+{
+	ValueMessage data;
+	ClientContext ctx;
+	auto reader = stub->ReadValue(&ctx, id);
+	while (reader->Read(&data))
+	{
+		auto &d = data.data();
+		messages += d.size();
+		for (auto it = d.begin(); it != d.end(); it++)
+			bytes += it->size();
+	}
+
+	Status s = reader->Finish();
+	if (!s.ok())
+	{
+		cout << "ReadBatch failed" << endl;
+		return false;
+	}
+	return true;
+}
+
+bool GetBatchInfo(const JobID& id, Kafka::Stub* stub)
+{
+	BatchInfo info;
+	ClientContext ctx;
+	Status s = stub->GetBatchInfo(&ctx, id, &info);
+	if (!s.ok())
+	{
+		cout << "GetBatchInfo failed" << endl;
+		return false;
+	}
+	if (info.eof())
+		return false;
+	return true;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc < 3) return 1;
@@ -70,73 +136,21 @@ int main(int argc, char **argv)
 			job.set_batchinterval(500);
 			job.set_partitionid(part);
 			job.set_offset(0);
+			job.set_queuesize(2);
 
-			auto& stub = stubs[part % channels];
-			JobID id;
-			{
-				ClientContext ctx;
-				Status s = stub->AddJob(&ctx, job, &id);
-				q++;
-				if (!s.ok())
-				{
-					cout << "AddJob failed" << endl;
-					return;
-				}
-			}
+			Kafka::Stub* stub = stubs[part % channels].get();
+			JobID id = AddJob(job, stub);
 
 			size_t messages = 0;
 			size_t bytes = 0;
 			while (true)
 			{
-				{
-					ValueMessage data;
-					ClientContext ctx;
-					auto reader = stub->ReadValue(&ctx, id);
-					q++;
-					while (reader->Read(&data))
-					{
-						q++;
-						auto &d = data.data();
-						messages+= d.size();
-						for (auto it = d.begin(); it != d.end(); it++)
-							bytes += it->size();
-					}
-
-					Status s = reader->Finish();
-					q++;
-					if (!s.ok())
-					{
-						cout << "ReadBatch failed" << endl;
-						return;
-					}
-				}
-
-				{
-					BatchInfo info;
-					ClientContext ctx;
-					Status s = stub->GetBatchInfo(&ctx, id, &info);
-					q++;
-					if (!s.ok())
-					{
-						cout << "GetBatchInfo failed" << endl;
-						return;
-					}
-					if (info.eof())
-						break;
-				}
+				StartBatch(id, stub);
+				ReadValue(id, stub, messages, bytes);
+				if (!GetBatchInfo(id, stub)) break;
 			}
 
-			{
-				Empty empty;
-				ClientContext ctx;
-				q++;
-				Status s = stub->DeleteJob(&ctx, id, &empty);
-				if (!s.ok())
-				{
-					cout << "DeleteJob failed" << endl;
-					return;
-				}
-			}
+			DeleteJob(id, stub);
 			std::lock_guard<std::mutex> l(m);
 			cout << "Partition: " << part << ", query: " << q << ", messages: " << messages << ", bytes: " << bytes << endl;
 			totalMessages += messages;

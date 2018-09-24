@@ -15,35 +15,13 @@ Job::Job(const ConsumerJob * job) :
 	kafka(nullptr),
 	topic(nullptr),
 	messages(nullptr),
+	started(false),
 	eof(false),
 	lastOffset(0),
 	errorCode(0),
-	data(job->batchsize())
+	flow(job->queuesize(), job->batchsize())
 {
 
-}
-
-Job::Job(Job && j) :
-	Topic(std::move(j.Topic)),
-	Brokers(std::move(j.Brokers)),
-	PartitionID(j.PartitionID),
-	Offset(j.Offset),
-	BatchInterval(j.BatchInterval),
-	BatchSize(j.BatchSize),
-	Destination(j.Destination),
-	Format(std::move(j.Format)),
-	kafka(j.kafka),
-	topic(j.topic),
-	messages(j.messages),
-	eof(j.eof),
-	lastOffset(j.lastOffset),
-	errorCode(j.errorCode),
-	errorMessage(std::move(j.errorMessage)),
-	data(std::move(j.data))
-{
-	j.kafka = nullptr;
-	j.topic = nullptr;
-	j.messages = nullptr;
 }
 
 Job::~Job()
@@ -78,18 +56,21 @@ bool Job::Init()
 		rd_kafka_t* k = rd_kafka_new(RD_KAFKA_CONSUMER, conf, msg, sizeof(msg));
 		if (k == nullptr)
 		{
+			errorMessage = rd_kafka_err2str(rd_kafka_last_error());
 			return false;
 		}
 
 		rd_kafka_topic_t* t = rd_kafka_topic_new(k, Topic.c_str(), nullptr);
 		if (t == nullptr)
 		{
+			errorMessage = rd_kafka_err2str(rd_kafka_last_error());
 			rd_kafka_destroy(k);
 			return false;
 		}
 
 		if (rd_kafka_consume_start(t, PartitionID, Offset) != RD_KAFKA_RESP_ERR_NO_ERROR)
 		{
+			errorMessage = rd_kafka_err2str(rd_kafka_last_error());
 			rd_kafka_destroy(k);
 			rd_kafka_topic_destroy(t);
 			return false;
@@ -104,55 +85,113 @@ bool Job::Init()
 	return true;
 }
 
-void Job::Start()
+bool Job::StartBatch()
 {
-	start = std::chrono::system_clock::now();
+	if (started == true)
+	{
+		return false;
+	}
+	started = true;
+	batchStart = std::chrono::system_clock::now();
 	auto duration = std::chrono::milliseconds(BatchInterval);
-	end = start + duration;
+	batchEnd = batchStart + duration;
+
+	eof = false;
+	errorCode = 0;
+	errorMessage.clear();
+	
+	pollThread = std::thread([this]() {PollWorker(); });
+	return true;
+}
+
+void Job::PollWorker()
+{
+	while (std::chrono::system_clock::now() < batchEnd)
+	{
+		rd_kafka_poll(kafka, 0);
+		ssize_t count = rd_kafka_consume_batch(topic, PartitionID, BatchInterval, messages, BatchSize);
+		if (count < 0)
+		{
+			rd_kafka_resp_err_t error = rd_kafka_last_error();
+			errorCode = error;
+			errorMessage = std::string("rd_kafka_consume_batch failed: ") + rd_kafka_err2str(error);
+			return;
+		}
+		struct ParamPack {
+			Job* ptr;
+			size_t available;
+		} param;
+		param.available = count;
+		param.ptr = this;
+		flow.Push([](DataBatch<KeyValue>& data, void* p) {
+			ParamPack* param = (ParamPack*)p;
+			Job* j = param->ptr;
+			data.available = param->available;
+			for (size_t i = 0; i < param->available; i++)
+			{
+				std::unique_ptr<rd_kafka_message_t, decltype(&rd_kafka_message_destroy)> msg(j->messages[i], rd_kafka_message_destroy);
+				if (msg->err != 0)
+				{
+					if (msg->err == RD_KAFKA_RESP_ERR__PARTITION_EOF)
+					{
+						j->eof = true;
+						data.available = i;
+						return;
+					}
+					j->errorCode = msg->err;
+					j->errorMessage = rd_kafka_err2str(msg->err);
+					return;
+				}
+				j->lastOffset = msg->offset;
+				const char* key = (const char*)msg->key;
+				const char* value = (const char*)msg->payload;
+
+				data.batch[i].first.assign(key, key + msg->key_len);
+				data.batch[i].second.assign(value, value + msg->len);
+			}
+		}, &param);
+	}
+	flow.Close();
+	std::unique_lock<std::mutex> l(workerLock);
+	while (activeWorker > 0)
+	{
+		workerCV.wait(l);
+	}
+	started = false;
 }
 
 bool Job::Finish()
 {
-	return std::chrono::system_clock::now() >= end;
+	pollThread.join();
+	return std::chrono::system_clock::now() >= batchEnd;
 }
 
-bool Job::Poll()
+bool Job::Poll(ConsumeFunction f, void* p)
 {
-	eof = false;
-	errorCode = 0;
-	errorMessage.clear();
-	rd_kafka_poll(kafka, 0);
-	ssize_t count = rd_kafka_consume_batch(topic, PartitionID, BatchInterval, messages, BatchSize);
-	if (count < 0)
-	{
-		return false;
-	}
+	
+	return flow.Pop(f, p);
+}
 
-	data.count = count;
-	for (ssize_t i = 0; i < count; i++)
-	{
-		rd_kafka_message_t* msg = messages[i];
-		if (msg->err != 0)
-		{
-			if (msg->err == RD_KAFKA_RESP_ERR__PARTITION_EOF)
-			{
-				eof = true;
-				data.count = i;
-				rd_kafka_message_destroy(msg);
-				return true;
-			}
-			errorCode = msg->err;
-			errorMessage = rd_kafka_err2str(msg->err);
-			rd_kafka_message_destroy(msg);
-			return false;
-		}
-		lastOffset = msg->offset;
-		const char* key = (const char*)msg->key;
-		data[i].first.assign(key, key + msg->key_len);
-		const char* value = (const char*)msg->payload;
-		data[i].second.assign(value, value + msg->len);
-		rd_kafka_message_destroy(msg);
-	}
-
+bool Job::AddWorker()
+{
+	std::lock_guard<std::mutex> l(workerLock);
+	if (!started) return false;
+	activeWorker++;
 	return true;
+}
+
+void Job::RemoveWorker()
+{
+	int currentWorker = 0;
+	{
+		std::lock_guard<std::mutex> l(workerLock);
+		activeWorker--;
+		currentWorker = activeWorker;
+	}
+
+	// Notify after unlocking
+	if (currentWorker == 0)
+	{
+		workerCV.notify_one();
+	}
 }
